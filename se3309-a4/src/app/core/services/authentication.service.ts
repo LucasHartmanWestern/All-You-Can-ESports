@@ -18,19 +18,17 @@ export class AuthenticationService {
   }
 
   continueAsGuest(): Observable<any> {
-    return this.http.get<any>(`${Constants.apiPaths.credentials}/guest`, {headers: this.httpHeaders}).pipe(
+    return this.http.post<any>(`${Constants.apiPaths.credentials}/guest`, {headers: this.httpHeaders}).pipe(
       map((data: any) => data),
       catchError(this.handleError)
     );
   }
 
-  login(username: string, password: string, reset?: boolean, newPassword?: string, verify?: boolean): Observable<any> {
-    return this.http.post<any>(`${Constants.apiPaths.credentials}`, {
+  login(username: string, password: string, email: string): Observable<any> {
+    return this.http.post<any>(`${Constants.apiPaths.credentials}/login`, {
       "username": username,
+      "email": email,
       "password": password,
-      "reset": reset || null,
-      "newPassword": newPassword || null,
-      "verify": verify || null
     }, {headers: this.httpHeaders}).pipe(
       map((data: any) => data),
       catchError(this.handleError)
@@ -38,7 +36,7 @@ export class AuthenticationService {
   }
 
   createAccount(username: string, email: string, password: string): Observable<any> {
-    return this.http.put<any>(`${Constants.apiPaths.credentials}`, {
+    return this.http.put<any>(`${Constants.apiPaths.credentials}/create`, {
       "username": username,
       "email": email,
       "password": password
@@ -49,14 +47,14 @@ export class AuthenticationService {
   }
 
   getUsers(): Observable<any[]> {
-    return this.http.get<any[]>(`${Constants.apiPaths.credentials}/all`,{headers: this.httpHeaders}).pipe(
+    return this.http.get<any[]>(`${Constants.apiPaths.credentials}`,{headers: this.httpHeaders}).pipe(
       map((data: any[]) => data),
       catchError(this.handleError)
     );
   }
 
-  updateUser(user: any, newValue: string, att: string): Observable<any> {
-    return this.http.post<any>(`${Constants.apiPaths.credentials}/update`,{user: user, newValue: newValue, att: att},{headers: this.httpHeaders}).pipe(
+  updateUser(user: string, email: string, access_level: number): Observable<any> {
+    return this.http.post<any>(`${Constants.apiPaths.credentials}`,{name: user, email: email, access_level: access_level},{headers: this.httpHeaders}).pipe(
       map((data: any) => data),
       catchError(this.handleError)
     );
