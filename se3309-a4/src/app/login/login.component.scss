@@ -1,0 +1,111 @@
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+
+  .login-card {
+    background-color: white;
+    height: 600px;
+    width: 400px;
+    border-radius: 12px;
+    padding: 36px 24px;
+
+    .title {
+      font-size: 32px;
+    }
+
+    form {
+      margin: 15% auto;
+      height: 80%;
+      position: relative;
+
+      input {
+        margin: auto;
+        display: block;
+      }
+
+      .searchBox {
+        margin: 24px;
+        padding: 8px;
+        background-color: #fafafa;
+        border-radius: 12px;
+        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+        min-width: 305px;
+
+        input[type=text], input[type=password] {
+          font-size: 24px;
+          width: 250px;
+          border: none;
+          background-color: transparent;
+          outline: none;
+        }
+      }
+
+      .error {
+        border-radius: 12px;
+        background-color: #f2dede;
+        border: 1px solid #b94a48;
+        color: #b94a48;
+        padding: 8px;
+        margin: 12px 24px;
+
+        button, input[type=submit] {
+          background-color: white;
+          margin-top: 8px;
+          text-decoration: none;
+          font-size: 18px;
+          border: 1px solid #b94a48;
+          color: #b94a48;
+          border-radius: 12px;
+          padding: 4px 10px;
+          margin-bottom: 0;
+        }
+
+        form {
+          margin: 10px;
+          padding: 0;
+          input[type=text] {
+            background-color: white;
+            margin-top: 8px;
+            text-decoration: none;
+            font-size: 18px;
+            border: 1px solid #b94a48;
+            color: #b94a48;
+            border-radius: 12px;
+            padding: 4px 10px;
+            margin-bottom: 0;
+            outline: none;
+          }
+          input[type=submit] {
+            position: relative;
+            left: 0;
+            width: 100px;
+          }
+        }
+      }
+
+      input[type=submit] {
+        font-size: 20px;
+        width: 250px;
+        padding: 4px;
+        border: 1px solid #8b8b8b;
+        background-color: white;
+        color: #8b8b8b;
+        border-radius: 12px;
+        outline: none;
+        position: absolute;
+        bottom: 0;
+        left: calc(50% - 125px);
+      }
+    }
+
+    button {
+      outline: none;
+      border: none;
+      text-decoration: underline;
+      margin-bottom: 24px;
+    }
+  }
+}
