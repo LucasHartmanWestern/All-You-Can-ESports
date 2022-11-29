@@ -17,5 +17,4 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     if (!this.user) this.router.navigateByUrl('login');
   }
-
 }

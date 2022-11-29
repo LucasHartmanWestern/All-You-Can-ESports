@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AuthenticationService } from "../core/services/authentication.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   error: string = '';
   formType: string = 'Login';
 
-  constructor(private authenticationService: AuthenticationService, private spinner: NgxSpinnerService) { }
+  constructor(private authenticationService: AuthenticationService, private spinner: NgxSpinnerService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -24,6 +25,9 @@ export class LoginComponent implements OnInit {
     else {
       // Authenticate the user
       this.spinner.show();
+      localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Njk3ODE5ODIsInVzZXJuYW1lIjoiZ3Vlc3QiLCJhY2Nlc3NfbGV2ZWwiOjAsImlhdCI6MTY2OTc2Mzk4Mn0.ulCwp25Gp-oiCbcJPiQhIWHWY_KTPqLNqOJnsyiUvzM");
+      this.router.navigateByUrl('home');
+
       // this.authenticationService.login(username, password).subscribe(res => {
       //
       //   if (res?.jwt) {
@@ -65,6 +69,8 @@ export class LoginComponent implements OnInit {
   continueAsGuest(): void {
     // Assign guest account
     this.spinner.show();
+    localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Njk3ODE5ODIsInVzZXJuYW1lIjoiZ3Vlc3QiLCJhY2Nlc3NfbGV2ZWwiOjAsImlhdCI6MTY2OTc2Mzk4Mn0.ulCwp25Gp-oiCbcJPiQhIWHWY_KTPqLNqOJnsyiUvzM");
+    this.router.navigateByUrl('home');
     // this.authenticationService.continueAsGuest().subscribe(res => {
     //   this.spinner.hide();
     //   this.credentials.emit({jwt: res.jwt});

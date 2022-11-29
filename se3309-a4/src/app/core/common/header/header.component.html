@@ -1,0 +1,11 @@
+<div class="header">
+  <div class="profile" [ngbPopover]="profile" placement="auto" [autoClose]="'outside'">
+    <button></button>
+  </div>
+
+  <ng-template #profile>
+    <div class="profile__options">
+      <button (click)="logout()">Logout</button>
+    </div>
+  </ng-template>
+</div>
