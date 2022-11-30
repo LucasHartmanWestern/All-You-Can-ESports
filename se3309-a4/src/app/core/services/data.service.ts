@@ -11,6 +11,7 @@ import { catchError, map } from "rxjs/operators";
 export class DataService {
 
   newSearch$: Subject <{ search: any }> = new Subject<{ search: any }>();
+  details$: Subject <{ type: string, details: any } | null> = new Subject<{ type: string, details: any } | null>();
 
   httpHeaders = new HttpHeaders({
     'Authorization': localStorage.getItem('token') || 'N/A'
@@ -45,6 +46,39 @@ export class DataService {
   getMatches(match_date: string, team_name: string, location: string, tournament: string): Observable<any> {
     let params = `${match_date ? 'match_date=' + match_date : ''}${match_date && (team_name || location || tournament) ? '&' : ''}${team_name ? 'team_name=' + team_name : ''}${team_name && (location || tournament) ? '&' : ''}${location ? 'location=' + location : ''}${location && tournament ? '&' : ''}${tournament ? 'tournament=' + tournament : ''}`;
     return this.http.get<any>(`${Constants.apiPaths.default}/match?${params}`, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  getAnnouncements(org_name: string): Observable<any> {
+    return this.http.get<any>(`${Constants.apiPaths.announcements}?org_name=${org_name}`, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  createAnnouncement(title: string, author: string, body: string, creation_date: string, org: string): Observable<any> {
+    return this.http.put<any>(`${Constants.apiPaths.announcements}`, {
+      title: title,
+      author: author,
+      body: body,
+      creation_date: creation_date,
+      org: org
+    }, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  deleteAnnouncement(title: string, author: string, body: string, creation_date: string, org: string): Observable<any> {
+    return this.http.put<any>(`${Constants.apiPaths.announcements}`, {
+      title: title,
+      author: author,
+      body: body,
+      creation_date: creation_date,
+      org: org
+    }, {headers: this.httpHeaders}).pipe(
       map((data: any) => data),
       catchError(this.handleError)
     );

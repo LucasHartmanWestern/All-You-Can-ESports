@@ -1,5 +1,9 @@
 <app-header></app-header>
 
-<div class="content">
+<div class="content" [hidden]="details">
   <app-content></app-content>
+</div>
+
+<div class="details" *ngIf="details">
+  <app-details [data]="details"></app-details>
 </div>
