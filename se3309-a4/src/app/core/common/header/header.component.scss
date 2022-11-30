@@ -2,17 +2,21 @@ $image-path: '~src/assets/icons/';
 
 .header {
   padding: 24px 8px;
-  justify-content: right;
+  justify-content: space-between;
   display: flex;
   position: absolute;
   top: -10px;
   background-color: white;
   border-radius: 12px;
   width: 100%;
+  text-align: center;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
 
   .profile {
+    display: flex;
+    margin: 0 24px;
 
-    button {
+    .popover-opener {
       padding: 12px;
       background: url("#{$image-path}profile.svg") 50% no-repeat;
       border-radius: 12px;
@@ -20,6 +24,7 @@ $image-path: '~src/assets/icons/';
       height: 36px;
       outline: none;
       border: none;
+      margin: auto;
     }
 
     &__options {

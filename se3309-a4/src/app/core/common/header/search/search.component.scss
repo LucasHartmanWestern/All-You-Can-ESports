@@ -1,0 +1,47 @@
+$image-path: '~src/assets/icons/';
+
+.searchContainer {
+  height: 75px;
+  display: flex;
+  margin: 0 24px;
+
+  select {
+    margin: auto;
+    font-size: 24px;
+    padding: 8px 24px;
+  }
+
+  .searchForm {
+    margin: auto;
+    justify-content: center;
+    display: flex;
+
+    .searchBox {
+      margin: 12px 24px;
+      padding: 8px;
+      background-color: #fafafa;
+      border-radius: 12px;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+      min-width: 280px;
+
+      input[type=text] {
+        font-size: 24px;
+        width: 200px;
+        border: none;
+        background-color: transparent;
+        outline: none;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      input[type=submit] {
+        width: 24px;
+        height: 24px;
+        margin: auto 8px;
+        border: none;
+        cursor: pointer;
+        background: url("#{$image-path}magnify-glass.svg") 50% no-repeat;
+      }
+    }
+  }
+}

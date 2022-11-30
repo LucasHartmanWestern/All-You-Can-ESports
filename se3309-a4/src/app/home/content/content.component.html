@@ -1,0 +1,61 @@
+<div class="results">
+
+  <ng-container *ngIf="games?.length">
+    <ul>
+      <li *ngFor="let game of games">
+        <span>{{game?.game_name}}</span>
+      </li>
+    </ul>
+  </ng-container>
+
+
+  <ng-container *ngIf="orgs?.length">
+    <ul>
+      <li *ngFor="let org of orgs">
+        <span>{{org?.org_name}}</span>
+        <span>{{org?.team_count}}</span>
+      </li>
+    </ul>
+  </ng-container>
+
+
+  <ng-container *ngIf="matches?.length">
+    <table>
+      <tr class="headers">
+        <th>Match Date</th>
+        <th>Team 1</th>
+        <th>Team 2</th>
+        <th>Location</th>
+        <th>Tournament</th>
+      </tr>
+
+      <tr *ngFor="let match of matches">
+        <td>{{match?.match_date}}</td>
+        <td>{{match?.team1_name}}</td>
+        <td>{{match?.team2_name}}</td>
+        <td>{{match?.location}}</td>
+        <td>{{match?.tournament}}</td>
+      </tr>
+    </table>
+  </ng-container>
+
+
+  <ng-container *ngIf="teams?.length">
+    <table>
+      <tr class="headers">
+        <th>Name</th>
+        <th>Wins</th>
+        <th>Losses</th>
+        <th>Organization</th>
+      </tr>
+
+      <tr *ngFor="let team of teams">
+        <td>{{team?.name}}</td>
+        <td>{{team?.wins}}</td>
+        <td>{{team?.losses}}</td>
+        <td>{{team?.organization}}</td>
+      </tr>
+    </table>
+  </ng-container>
+
+</div>

@@ -1,0 +1,42 @@
+<div class="searchContainer">
+  <select #searchSelect (change)="setSearch(searchSelect.value)">
+    <option value="org">Organizations</option>
+    <option value="game">Games</option>
+    <option value="team">Teams</option>
+    <option value="match">Matches</option>
+  </select>
+
+  <form *ngIf="searchSelect.value === 'team'" name="searchForm" class="searchForm" (submit)="searchTeam($event, team.value, org.value, game.value); team.value = ''; org.value = ''; game.value = ''">
+    <div class="searchBox">
+      <input name="teamName" type="text" placeholder="Search by Teams" #team>
+      <input type="submit" class="searchBtn" value="">
+    </div>
+    <div class="searchBox">
+      <input name="orgName" type="text" placeholder="Search by Organization" #org>
+      <input type="submit" class="searchBtn" value="">
+    </div>
+    <div class="searchBox">
+      <input name="gameName" type="text" placeholder="Search by Game" #game>
+      <input type="submit" class="searchBtn" value="">
+    </div>
+  </form>
+
+  <form *ngIf="searchSelect.value === 'match'" name="searchForm" class="searchForm" (submit)="searchMatch($event, date.value, team.value, location.value, tournament.value); date.value = ''; team.value = ''; location.value = ''; tournament.value = ''">
+    <div class="searchBox">
+      <input name="date" type="text" placeholder="Search by Date" #date>
+      <input type="submit" class="searchBtn" value="">
+    </div>
+    <div class="searchBox">
+      <input name="teamName" type="text" placeholder="Search by Team" #team>
+      <input type="submit" class="searchBtn" value="">
+    </div>
+    <div class="searchBox">
+      <input name="location" type="text" placeholder="Search by Location" #location>
+      <input type="submit" class="searchBtn" value="">
+    </div>
+    <div class="searchBox">
+      <input name="tournament" type="text" placeholder="Search by Tournament" #tournament>
+      <input type="submit" class="searchBtn" value="">
+    </div>
+  </form>
+</div>
