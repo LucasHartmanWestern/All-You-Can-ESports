@@ -18,18 +18,10 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.spinner.show();
 
-    // this.authenticationService.getUsers().subscribe(res => {
-    //   this.userList = res;
-    //   this.spinner.hide();
-    // });
-
-    this.userList = [
-      { name: "User 1", email: "email@email.com", account_balance: 15.01, access_level: 1 },
-      { name: "User 2", email: "email@email.com", account_balance: 24.00, access_level: 1 },
-      { name: "User 3", email: "email@email.com", account_balance: 5.43, access_level: 2 },
-      { name: "User 4", email: "email@email.com", account_balance: 99.99, access_level: 1 },
-      { name: "User 5", email: "email@email.com", account_balance: 0.00, access_level: 1 }
-    ];
+    this.authenticationService.getUsers().subscribe(res => {
+      this.userList = res;
+      this.spinner.hide();
+    });
   }
 
   changeMade(user: any, newValue: string, att: string): void {

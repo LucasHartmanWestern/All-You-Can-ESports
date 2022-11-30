@@ -24,9 +24,8 @@ export class AuthenticationService {
     );
   }
 
-  login(username: string, password: string, email: string): Observable<any> {
+  login(password: string, email: string): Observable<any> {
     return this.http.post<any>(`${Constants.apiPaths.credentials}/login`, {
-      "username": username,
       "email": email,
       "password": password,
     }, {headers: this.httpHeaders}).pipe(
@@ -37,7 +36,7 @@ export class AuthenticationService {
 
   createAccount(username: string, email: string, password: string): Observable<any> {
     return this.http.put<any>(`${Constants.apiPaths.credentials}/create`, {
-      "username": username,
+      "name": username,
       "email": email,
       "password": password
     }, {headers: this.httpHeaders}).pipe(

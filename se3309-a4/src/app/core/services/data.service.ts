@@ -121,6 +121,8 @@ export class DataService {
   private handleError(err: HttpErrorResponse) {
 
 
+    alert(err.error);
+
     let errorMessage = '';
     if (err.error instanceof ErrorEvent) {
 

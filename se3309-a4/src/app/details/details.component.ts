@@ -24,25 +24,21 @@ export class DetailsComponent implements OnInit {
   constructor(private dataService: DataService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
-    console.log(this.data);
-
-    this.makeSampleData(this.data?.type);
-
     if (this.data?.type === 'org') {
-      // this.dataService.getTeams('', '', this?.data?.details?.org_name)
-      //   .subscribe(teams => this.orgTeams = teams);
+      this.dataService.getTeams('', '', this?.data?.details?.org_name)
+        .subscribe(teams => this.orgTeams = teams);
 
-      // this.dataService.getAnnouncements(this?.data?.details?.org_name)
-      //   .subscribe(announcements => this.announcements = announcements);
+      this.dataService.getAnnouncements(this?.data?.details?.org_name)
+        .subscribe(announcements => this.announcements = announcements);
     }
 
     if (this.data?.type === 'match') {
-      // this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.match_location, this.data?.details?.team1_name).subscribe(bets => {
-      //   bets.forEach((bet: any) => this.bets.push(bet));
-      // });
-      // this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.match_location, this.data?.details?.team2_name).subscribe(bets => {
-      //   bets.forEach((bet: any) => this.bets.push(bet));
-      // });
+      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.match_location, this.data?.details?.team1_name).subscribe(bets => {
+        bets.forEach((bet: any) => this.bets.push(bet));
+      });
+      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.match_location, this.data?.details?.team2_name).subscribe(bets => {
+        bets.forEach((bet: any) => this.bets.push(bet));
+      });
     }
   }
 
@@ -71,85 +67,6 @@ export class DetailsComponent implements OnInit {
       // @ts-ignore
       this.data.details = res;
     });
-  }
-
-  makeSampleData(type?: string): void {
-    if (type === 'match') {
-      this.bets = [
-        { holder: 2, amount: 20.01, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team1_name },
-        { holder: 3, amount: 21.99, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team1_name },
-        { holder: 4, amount: 20.04, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team1_name },
-        { holder: 5, amount: 21.01, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team1_name },
-        { holder: 15, amount: 40.11, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team1_name },
-        { holder: 1, amount: 25.16, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team1_name },
-        { holder: 2, amount: 26.21, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team1_name },
-        { holder: 414, amount: 20.01, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team2_name },
-        { holder: 1, amount: 20.01, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team2_name },
-        { holder: 5, amount: 20.01, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team2_name },
-        { holder: 8, amount: 20.01, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team2_name },
-        { holder: 1, amount: 20.01, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team2_name },
-        { holder: 0, amount: 20.01, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team2_name },
-        { holder: 1, amount: 20.01, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team2_name },
-        { holder: 9, amount: 20.01, match_location: this.data?.details?.match_location, match_date: this.data?.details?.match_date, team: this.data?.details?.team2_name }
-      ];
-    }
-
-    if (type === 'org') {
-      this.orgTeams = [
-        { name: "Test 1", wins: 1, losses: 2, organization: this.data?.details?.org_name },
-        { name: "Test 2", wins: 2, losses: 3, organization: this.data?.details?.org_name },
-        { name: "Test 3", wins: 3, losses: 4, organization: this.data?.details?.org_name },
-        { name: "Test 4", wins: 4, losses: 5, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 2", wins: 2, losses: 3, organization: this.data?.details?.org_name },
-        { name: "Test 3", wins: 3, losses: 4, organization: this.data?.details?.org_name },
-        { name: "Test 4", wins: 4, losses: 5, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name },
-        { name: "Test 5", wins: 5, losses: 6, organization: this.data?.details?.org_name }
-      ];
-
-      this.announcements = [
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 1", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 2", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 3", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 4", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 5", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 6", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 7", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 1", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 2", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 3", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 4", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 5", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 6", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 7", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 1", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 2", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 3", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 4", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 5", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 6", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 7", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 1", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 2", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 3", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 4", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 5", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 6", creation_date: "2022-10-10"},
-        {title: "This is a title", author: "Lucas Hartman", body: "This is a body 7", creation_date: "2022-10-10"}
-      ];
-    }
   }
 
 }
