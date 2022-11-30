@@ -1,6 +1,6 @@
 <div class="main">
   <div class="login-card">
-    <span class="title" [textContent]="formType === 'Login' ? 'Login to Music App!' : 'Create a new Account!'"></span>
+    <span class="title" [textContent]="formType === 'Login' ? 'Login to eSports App!' : 'Create a new Account!'"></span>
     <form (submit)="$event.preventDefault(); formType === 'Login' ? authenticate(username.value, password.value) : createAccount(username.value, email.value, password.value, confirm.value)">
       <div class="searchBox">
         <input type="text" [placeholder]="formType === 'Login' ? 'Email' : 'Username'" #username>
