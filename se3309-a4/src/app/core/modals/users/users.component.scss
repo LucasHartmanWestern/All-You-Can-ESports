@@ -1,0 +1,57 @@
+.modal-body {
+
+  .data {
+    max-height: 40vh;
+    overflow-y: scroll;
+    margin-bottom: 24px;
+    border: 1px solid #ecf0f1;
+    border-radius: 12px;
+    padding: 0 12px 12px 12px;
+
+    table {
+      width: 100%;
+      border-collapse:separate;
+      border-spacing: 0 1.3em;
+
+      .headers {
+        font-size: 1.4rem;
+        background-color: white;
+        position: sticky;
+        top: 0;
+        box-shadow: rgba(99, 99, 99, 0.2) 0 2px 8px 0;
+
+        th {
+          padding: 12px;
+          text-align: left;
+        }
+      }
+
+      input {
+        border: 1px solid #ecf0f1;
+        border-radius: 12px;
+        padding: 12px;
+
+        &:not(:placeholder-shown) {
+          border: 1px solid green;
+        }
+      }
+    }
+  }
+
+  .buttons{
+    button {
+      margin: 12px;
+      border: 2px solid #ecf0f1;
+      border-radius: 16px;
+      background-color: transparent;
+      padding: 8px 24px;
+      font-weight: bold;
+    }
+
+    .close {
+      position: absolute;
+      right: 24px;
+    }
+  }
+
+}
