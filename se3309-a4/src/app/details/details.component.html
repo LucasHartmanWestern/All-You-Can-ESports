@@ -1,1 +1,55 @@
-<p>details works!</p>
+<div class="details__content">
+
+  <div *ngIf="data?.type === 'org'" class="orgDetails">
+    <h1>{{data?.details?.org_name}}</h1>
+
+    <div class="orgMain">
+
+      <div class="orgTeams">
+        <table *ngIf="orgTeams.length">
+          <tr class="headers">
+            <th>Teams</th>
+          </tr>
+
+          <tr *ngFor="let team of orgTeams" (click)="this.data = { type: 'team', details: team }">
+            <td>{{team?.name}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="orgAnnouncements">
+        <h3>Announcements</h3>
+        <button>Create new announcement</button>
+
+        <ul *ngIf="announcements?.length">
+          <li *ngFor="let announcement of announcements">
+            <h4>{{announcement?.title}}</h4>
+            <span>{{announcement?.author}}</span>
+            <span>{{announcement?.body}}</span>
+            <span>{{announcement?.creation_date}}</span>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div *ngIf="data?.type === 'match'" class="matchDetails">
+    <span>{{data?.details?.location}}</span>
+    <span>{{data?.details?.match_date}}</span>
+    <span>{{data?.details?.team1_name}}</span>
+    <span>{{data?.details?.team2_name}}</span>
+    <span *ngIf="data?.details?.tournament">{{data?.details?.tournament}}</span>
+  </div>
+
+  <div *ngIf="data?.type === 'team'" class="teamDetails">
+    <h1>{{data?.details.name}}</h1>
+    <span>{{data?.details?.organization}}</span>
+    <div class="stats">
+      <span>{{data?.details?.wins}}</span>
+      <span>{{data?.details?.losses}}</span>
+    </div>
+  </div>
+
+</div>

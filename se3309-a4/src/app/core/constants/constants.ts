@@ -3,6 +3,7 @@ const serverPrefix = `${window.location.protocol}//${window.location.hostname}:3
 export const Constants = {
   apiPaths: {
     default: `${serverPrefix}`,
-    credentials: `${serverPrefix}/user`
+    credentials: `${serverPrefix}/user`,
+    announcements: `${serverPrefix}/announcement`
   }
 }

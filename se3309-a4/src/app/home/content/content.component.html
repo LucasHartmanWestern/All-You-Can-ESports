@@ -2,7 +2,7 @@
 
   <ng-container *ngIf="games?.length">
     <ul>
-      <li *ngFor="let game of games" (click)="setDetails('game', game)">
+      <li *ngFor="let game of games" (click)="getTeamsByGame(game.game_name)">
         <span>{{game?.game_name}}</span>
       </li>
     </ul>

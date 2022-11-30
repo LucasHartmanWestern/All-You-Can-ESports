@@ -51,6 +51,39 @@ export class DataService {
     );
   }
 
+  getAnnouncements(org_name: string): Observable<any> {
+    return this.http.get<any>(`${Constants.apiPaths.announcements}?org_name=${org_name}`, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  createAnnouncement(title: string, author: string, body: string, creation_date: string, org: string): Observable<any> {
+    return this.http.put<any>(`${Constants.apiPaths.announcements}`, {
+      title: title,
+      author: author,
+      body: body,
+      creation_date: creation_date,
+      org: org
+    }, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  deleteAnnouncement(title: string, author: string, body: string, creation_date: string, org: string): Observable<any> {
+    return this.http.put<any>(`${Constants.apiPaths.announcements}`, {
+      title: title,
+      author: author,
+      body: body,
+      creation_date: creation_date,
+      org: org
+    }, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
 
   private handleError(err: HttpErrorResponse) {
 

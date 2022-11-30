@@ -12,7 +12,7 @@ export class ContentComponent implements OnInit {
 
   games: { game_name: string }[] = [];
   orgs: { org_name: string, team_count: number }[] = [];
-  matches: { match_date: string, team1_name: string, team2_name: string, location: string, tournament: string }[] = [];
+  matches: { match_date: string, team1_name: string, team2_name: string, location: string, tournament: string | null }[] = [];
   teams: { name: string, wins: number, losses: number, organization: string }[] = [];
 
   ngOnInit(): void {
@@ -37,6 +37,14 @@ export class ContentComponent implements OnInit {
     this.dataService.details$.next({type: type, details: details});
   }
 
+  getTeamsByGame(gameName: string): void {
+    this.makeSample('team');
+
+    this.games = [];
+    // this.dataService.getTeams('', gameName, '')
+    //   .subscribe(teams => this.teams = teams);
+  }
+
 
   makeSample(type: string): void {
     if (type === 'org') {
@@ -57,10 +65,10 @@ export class ContentComponent implements OnInit {
 
     if (type === 'match') {
       this.matches = [
-        { match_date: "2022-01-01", team1_name: "Test 1", team2_name: "Test 2", location: "Test Location", tournament: "Test Tournament" },
+        { match_date: "2022-01-01", team1_name: "Test 1", team2_name: "Test 2", location: "Test Location", tournament: null },
         { match_date: "2022-01-02", team1_name: "Test 1", team2_name: "Test 2", location: "Test Location", tournament: "Test Tournament" },
         { match_date: "2022-01-03", team1_name: "Test 1", team2_name: "Test 2", location: "Test Location", tournament: "Test Tournament" },
-        { match_date: "2022-01-04", team1_name: "Test 1", team2_name: "Test 2", location: "Test Location", tournament: "Test Tournament" },
+        { match_date: "2022-01-04", team1_name: "Test 1", team2_name: "Test 2", location: "Test Location", tournament: null },
         { match_date: "2022-01-05", team1_name: "Test 1", team2_name: "Test 2", location: "Test Location", tournament: "Test Tournament" }
       ];
     }

@@ -1,0 +1,103 @@
+.details__content {
+  padding: 24px;
+  background-color: white;
+  border-radius: 12px;
+  margin: 0 24px;
+
+  .orgDetails {
+
+    .orgMain {
+      display: flex;
+      justify-content: space-around;
+
+      .orgTeams {
+        max-height: 80vh;
+        overflow-y: scroll;
+        padding: 12px;
+        width: 20%;
+
+        table {
+          width: 100%;
+          border-collapse: separate;
+          border-spacing: 0 0.5em;
+
+          .headers {
+            font-size: 1.4rem;
+            background-color: white;
+            border-radius: 12px;
+            position: sticky;
+            top: 10px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+            th {
+              border-radius: 12px;
+              padding: 12px;
+              text-align: left;
+            }
+          }
+          tr {
+            margin-bottom: 12px;
+            cursor: pointer;
+
+            &:hover:not(.headers) {
+              background-color: #ecf0f1;
+            }
+
+            td {
+              padding: 12px;
+              font-size: 1rem;
+
+              .trackImage {
+                height: 48px;
+                aspect-ratio: 1;
+              }
+            }
+          }
+        }
+      }
+
+      .orgAnnouncements {
+        width: 80%;
+        padding: 0 24px;
+        text-align: center;
+        position: relative;
+
+        button {
+          position: absolute;
+          right: 24px;
+          top: 0;
+          border: none;
+          outline: none;
+          background-color: #fafafa;
+          font-size: 18px;
+          padding: 8px;
+          border-radius: 12px;
+          box-shadow: rgb(99 99 99 / 20%) 0px 2px 8px 0px;
+        }
+
+        ul {
+          margin-top: 24px;
+          max-height: calc(80vh - 57px);
+          overflow-y: scroll;
+          margin-bottom: 0 !important;
+
+          li {
+            list-style: none;
+
+            span {
+
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .teamDetails {
+
+  }
+
+  .matchDetails {
+
+  }
+}
