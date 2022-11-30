@@ -11,6 +11,7 @@ import { catchError, map } from "rxjs/operators";
 export class DataService {
 
   newSearch$: Subject <{ search: any }> = new Subject<{ search: any }>();
+  details$: Subject <{ type: string, details: any } | null> = new Subject<{ type: string, details: any } | null>();
 
   httpHeaders = new HttpHeaders({
     'Authorization': localStorage.getItem('token') || 'N/A'

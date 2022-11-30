@@ -1,6 +1,10 @@
 <div class="header">
 
-  <app-search></app-search>
+  <app-search *ngIf="!details"></app-search>
+  <div class="searchContainer">
+    <button *ngIf="details" (click)="back()">Back</button>
+  </div>
+
 
   <div class="profile">
     <button class="popover-opener" [ngbPopover]="profile" placement="bottom-right" [autoClose]="'true'"></button>

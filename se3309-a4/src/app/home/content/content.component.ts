@@ -33,6 +33,10 @@ export class ContentComponent implements OnInit {
     });
   }
 
+  setDetails(type: string, details: any): void {
+    this.dataService.details$.next({type: type, details: details});
+  }
+
 
   makeSample(type: string): void {
     if (type === 'org') {
