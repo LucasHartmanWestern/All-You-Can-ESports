@@ -65,6 +65,14 @@ export class DetailsComponent implements OnInit {
     });
   }
 
+  updateMatchOutcome(event: any, result: string): void {
+    event.preventDefault();
+    this.dataService.updateOutcome(this.data?.details?.match_location, this.data?.details?.match_date, this.data?.details?.team1_name, this.data?.details?.team2_name, parseInt(result)).subscribe(res => {
+      // @ts-ignore
+      this.data.details = res;
+    });
+  }
+
   makeSampleData(type?: string): void {
     if (type === 'match') {
       this.bets = [

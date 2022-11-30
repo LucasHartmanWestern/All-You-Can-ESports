@@ -105,6 +105,19 @@ export class DataService {
     );
   }
 
+  updateOutcome(match_location: string, match_date: string, team1: string, team2: string, result: number): Observable<any> {
+    return this.http.post<any>(`${Constants.apiPaths.match}/results`, {
+      match_location: match_location,
+      match_date: match_date,
+      team1: team1,
+      team2: team2,
+      result: result
+    }, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(err: HttpErrorResponse) {
 
 
