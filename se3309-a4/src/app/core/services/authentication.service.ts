@@ -53,8 +53,8 @@ export class AuthenticationService {
     );
   }
 
-  updateUser(user: string, email: string, access_level: number): Observable<any> {
-    return this.http.post<any>(`${Constants.apiPaths.credentials}`,{name: user, email: email, access_level: access_level},{headers: this.httpHeaders}).pipe(
+  updateUser(name: string, email: string, access_level: number): Observable<any> {
+    return this.http.post<any>(`${Constants.apiPaths.credentials}`,{name: name, email: email, access_level: access_level},{headers: this.httpHeaders}).pipe(
       map((data: any) => data),
       catchError(this.handleError)
     );

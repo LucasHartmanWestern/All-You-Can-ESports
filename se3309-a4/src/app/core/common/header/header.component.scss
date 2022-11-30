@@ -29,11 +29,13 @@ $image-path: '~src/assets/icons/';
 
     &__options {
       button {
+        margin: 10px auto;
+        display: block;
         border: none;
         font-size: 24px;
         border-radius: 12px;
         padding: 12px;
-
+        width: 100%;
       }
     }
   }

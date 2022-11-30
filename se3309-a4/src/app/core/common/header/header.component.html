@@ -3,12 +3,13 @@
   <app-search></app-search>
 
   <div class="profile">
-    <button class="popover-opener" [ngbPopover]="profile" placement="bottom-right" [autoClose]="'outside'"></button>
+    <button class="popover-opener" [ngbPopover]="profile" placement="bottom-right" [autoClose]="'true'"></button>
   </div>
 
   <ng-template #profile>
     <div class="profile__options">
       <button (click)="logout()">Logout</button>
+      <button (click)="openUsers()">Users</button>
     </div>
   </ng-template>
 </div>
