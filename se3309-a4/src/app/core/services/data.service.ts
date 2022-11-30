@@ -34,8 +34,8 @@ export class DataService {
   }
 
   getTeams(team_name: string, game_name: string, org_name: string): Observable<any> {
-    let params = `${team_name ? 'team_name=' + team_name : ''}${team_name && (game_name || org_name) ? '&' : ''}
-    ${game_name ? 'game_name=' + game_name : ''}${game_name && org_name ? '&' : ''}${org_name ? 'org_name=' + org_name : ''}`;
+    let params = `${team_name ? 'team_name=' + team_name : ''}${team_name && (game_name || org_name) ? '&' : ''}${game_name ? 'game_name=' + game_name : ''}${game_name && org_name ? '&' : ''}${org_name ? 'org_name=' + org_name : ''}`;
+    console.log(params);
     return this.http.get<any>(`${Constants.apiPaths.default}/team?${params}`, {headers: this.httpHeaders}).pipe(
       map((data: any) => data),
       catchError(this.handleError)
@@ -43,9 +43,7 @@ export class DataService {
   }
 
   getMatches(match_date: string, team_name: string, location: string, tournament: string): Observable<any> {
-    let params = `${match_date ? 'match_date=' + match_date : ''}${match_date && (team_name || location || tournament) ? '&' : ''}
-    ${team_name ? 'team_name=' + team_name : ''}${team_name && (location || tournament) ? '&' : ''}
-    ${location ? 'location=' + location : ''}${location && tournament ? '&' : ''}${tournament ? 'tournament=' + tournament : ''}`;
+    let params = `${match_date ? 'match_date=' + match_date : ''}${match_date && (team_name || location || tournament) ? '&' : ''}${team_name ? 'team_name=' + team_name : ''}${team_name && (location || tournament) ? '&' : ''}${location ? 'location=' + location : ''}${location && tournament ? '&' : ''}${tournament ? 'tournament=' + tournament : ''}`;
     return this.http.get<any>(`${Constants.apiPaths.default}/match?${params}`, {headers: this.httpHeaders}).pipe(
       map((data: any) => data),
       catchError(this.handleError)
