@@ -1,0 +1,26 @@
+<div class="main">
+  <div class="login-card">
+    <span class="title" [textContent]="formType === 'Login' ? 'Login to Music App!' : 'Create a new Account!'"></span>
+    <form (submit)="$event.preventDefault(); formType === 'Login' ? authenticate(username.value, password.value) : createAccount(username.value, email.value, password.value, confirm.value)">
+      <div class="searchBox">
+        <input type="text" [placeholder]="formType === 'Login' ? 'Email or Username' : 'Username'" #username>
+      </div>
+      <div class="searchBox" [hidden]="formType !== 'Create'">
+        <input type="text" placeholder="Email" #email>
+      </div>
+      <div class="searchBox">
+        <input type="password" placeholder="Password" #password>
+      </div>
+      <div class="searchBox" [hidden]="formType === 'Login'">
+        <input type="password" placeholder="Confirm Password" #confirm>
+      </div>
+      <div class="error" *ngIf="error">
+        <span>{{error}}</span>
+      </div>
+      <input type="submit" [value]="formType === 'Login' ? 'Login' : 'Create Account'">
+    </form>
+    <button (click)="formType === 'Login' ? formType = 'Create' : formType = 'Login'; error = ''"
+    [textContent]="formType === 'Login' ? 'Don\'t have an account? Click here to create one' : 'Already have an account? Click here to login'"></button>
+    <button (click)="continueAsGuest()">Continue as guest</button>
+  </div>
+</div>

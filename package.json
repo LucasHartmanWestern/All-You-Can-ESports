@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "@angular/common": "^15.0.1",
+    "@auth0/angular-jwt": "^5.1.0",
+    "angular-jwt": "^0.1.11"
+  }
+}

@@ -1,0 +1,35 @@
+$image-path: '~src/assets/icons/';
+
+.header {
+  padding: 24px 8px;
+  justify-content: right;
+  display: flex;
+  position: absolute;
+  top: -10px;
+  background-color: white;
+  border-radius: 12px;
+  width: 100%;
+
+  .profile {
+
+    button {
+      padding: 12px;
+      background: url("#{$image-path}profile.svg") 50% no-repeat;
+      border-radius: 12px;
+      width: 36px;
+      height: 36px;
+      outline: none;
+      border: none;
+    }
+
+    &__options {
+      button {
+        border: none;
+        font-size: 24px;
+        border-radius: 12px;
+        padding: 12px;
+
+      }
+    }
+  }
+}

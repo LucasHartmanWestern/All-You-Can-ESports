@@ -1,14 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss']
 })
-export class AppComponent {
-  title = 'se3309-a4';
+export class HomeComponent implements OnInit {
 
   helper = new JwtHelperService();
   user: any = this.helper.decodeToken(localStorage.getItem('token') || undefined);
@@ -17,6 +16,5 @@ export class AppComponent {
 
   ngOnInit(): void {
     if (!this.user) this.router.navigateByUrl('login');
-    else this.router.navigateByUrl('home');
   }
 }
