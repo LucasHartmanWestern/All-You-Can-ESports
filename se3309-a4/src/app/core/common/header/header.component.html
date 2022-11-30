@@ -1,6 +1,9 @@
 <div class="header">
-  <div class="profile" [ngbPopover]="profile" placement="auto" [autoClose]="'outside'">
-    <button></button>
+
+  <app-search></app-search>
+
+  <div class="profile">
+    <button class="popover-opener" [ngbPopover]="profile" placement="bottom-right" [autoClose]="'outside'"></button>
   </div>
 
   <ng-template #profile>
