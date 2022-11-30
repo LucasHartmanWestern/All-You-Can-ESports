@@ -72,7 +72,7 @@ export class DataService {
   }
 
   deleteAnnouncement(title: string, author: string, body: string, creation_date: string, org: string): Observable<any> {
-    return this.http.put<any>(`${Constants.apiPaths.announcements}`, {
+    return this.http.post<any>(`${Constants.apiPaths.announcements}`, {
       title: title,
       author: author,
       body: body,
@@ -84,6 +84,26 @@ export class DataService {
     );
   }
 
+  viewBets(match_date: string, match_location: string, team_name: string, holder?: number): Observable<any> {
+    return this.http.get<any>(`${Constants.apiPaths.bets}?match_date=${match_date}&match_location=${match_location}&team_name=${team_name}${holder ? '&holder=' + holder : ''}`,
+      {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  placeBet(amount: number, holder: number, match_location: string, match_date: string, team: string): Observable<any> {
+    return this.http.put<any>(`${Constants.apiPaths.bets}`, {
+      amount: amount,
+      holder: holder,
+      match_location: match_location,
+      match_date: match_date,
+      team: team
+    }, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
 
   private handleError(err: HttpErrorResponse) {
 
