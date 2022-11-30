@@ -5,6 +5,7 @@ export const Constants = {
     default: `${serverPrefix}`,
     credentials: `${serverPrefix}/user`,
     announcements: `${serverPrefix}/announcement`,
-    bets: `${serverPrefix}/bets`
+    bets: `${serverPrefix}/bets`,
+    match: `${serverPrefix}/match`
   }
 }

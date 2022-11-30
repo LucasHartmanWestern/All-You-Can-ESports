@@ -145,6 +145,7 @@
 
   .matchDetails {
     display: block;
+    position: relative;
 
     .matchUp {
       justify-content: center;
@@ -156,6 +157,10 @@
         font-weight: bold;
         font-size: 36px;
         margin: 8px;
+
+        &.winner {
+          color: green;
+        }
       }
     }
 
@@ -231,7 +236,6 @@
           box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
           border-radius: 18px;
           transition: all 1s ease;
-          cursor: pointer;
           font-size: small;
 
           span {
@@ -242,6 +246,30 @@
           }
         }
       }
+    }
+
+    form {
+      display: flex;
+
+      input[type=submit] {
+        margin-left: 12px;
+      }
+    }
+
+    button, input[type=submit], select {
+      border: none;
+      border-radius: 12px;
+      background-color: #ecf0f1;
+      box-shadow: rgb(99 99 99 / 20%) 0px 2px 8px 0px;
+      width: 150px;
+      height: 50px;
+      font-size: 24px;
+    }
+
+    .addWinner {
+      position: absolute;
+      right: 0;
+      top: 0;
     }
 
   }

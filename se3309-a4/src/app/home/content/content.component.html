@@ -27,6 +27,7 @@
         <th>Team 2</th>
         <th>Location</th>
         <th>Tournament</th>
+        <th>Winner</th>
       </tr>
 
       <tr *ngFor="let match of matches" (click)="setDetails('match', match)">
@@ -35,6 +36,7 @@
         <td>{{match?.team2_name}}</td>
         <td>{{match?.location}}</td>
         <td>{{match?.tournament}}</td>
+        <td>{{match?.winner === 1 ? match?.team1_name : match?.winner === 2 ? match?.team2_name : ''}}</td>
       </tr>
     </table>
   </ng-container>
