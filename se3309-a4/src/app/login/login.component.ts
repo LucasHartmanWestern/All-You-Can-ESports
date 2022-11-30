@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     else {
       // Authenticate the user
       this.spinner.show();
-      localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Njk3ODE5ODIsInVzZXJuYW1lIjoiZ3Vlc3QiLCJhY2Nlc3NfbGV2ZWwiOjAsImlhdCI6MTY2OTc2Mzk4Mn0.ulCwp25Gp-oiCbcJPiQhIWHWY_KTPqLNqOJnsyiUvzM");
+      localStorage.setItem('token', "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2Njk3ODE5ODIsInVzZXJuYW1lIjoiTHVjYXMgSGFydG1hbiIsImFjY2Vzc19sZXZlbCI6MywiaWF0IjoxNjY5NzYzOTgyfQ.8mwEZtF8OOywSoLzx5yZRHlJh3_NTGO9MfWQ4umoj8g");
       this.router.navigateByUrl('home');
 
       // this.authenticationService.login(username, password).subscribe(res => {

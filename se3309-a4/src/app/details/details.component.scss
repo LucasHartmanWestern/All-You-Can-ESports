@@ -5,6 +5,10 @@
   margin: 0 24px;
 
   .orgDetails {
+    h1 {
+      margin-left: 24px;
+    }
+
 
     .orgMain {
       display: flex;
@@ -62,7 +66,7 @@
         text-align: center;
         position: relative;
 
-        button {
+        button.create {
           position: absolute;
           right: 24px;
           top: 0;
@@ -80,12 +84,55 @@
           max-height: calc(80vh - 57px);
           overflow-y: scroll;
           margin-bottom: 0 !important;
+          text-align: left;
+          border: 1px solid #ecf0f1;
+          border-radius: 12px;
+          padding: 24px;
 
           li {
             list-style: none;
+            position: relative;
+            border: 1px solid #ecf0f1;
+            border-radius: 12px;
+            padding: 24px;
+            overflow-x: hidden;
 
-            span {
+            &:not(:last-child) {
+              margin-bottom: 24px;
+            }
 
+            h4 {
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              width: calc(100% - 100px);
+            }
+            .author {
+              display: block;
+              font-size: 14px;
+              margin-bottom: 12px;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              width: 100%;
+            }
+            .body {
+              display: block;
+              font-size: 18px;
+            }
+            .date {
+              display: block;
+              font-size: 14px;
+            }
+
+            button {
+              border: none;
+              position: absolute;
+              right: 24px;
+              top: 12px;
+              padding: 6px 16px;
+              border-radius: 12px;
+              font-size: 16px;
             }
           }
         }

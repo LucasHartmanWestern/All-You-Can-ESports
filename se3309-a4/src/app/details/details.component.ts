@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from "../core/services/data.service";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { AnnouncementComponent } from "../core/modals/announcement/announcement.component";
+import { JwtHelperService } from "@auth0/angular-jwt";
 
 @Component({
   selector: 'app-details',
@@ -13,7 +16,10 @@ export class DetailsComponent implements OnInit {
   orgTeams: { name: string, wins: number, losses: number, organization: string }[] = [];
   announcements: {title: string, author: string, body: string, creation_date: string}[] = [];
 
-  constructor(private dataService: DataService) { }
+  helper = new JwtHelperService();
+  user: any = this.helper.decodeToken(localStorage.getItem('token') || undefined);
+
+  constructor(private dataService: DataService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     console.log(this.data);
@@ -28,6 +34,18 @@ export class DetailsComponent implements OnInit {
       // this.dataService.getAnnouncements(this?.data?.details?.org_name)
       //   .subscribe(announcements => this.announcements = announcements);
     }
+  }
+
+  createAnnouncement(): void {
+    let modalRef = this.modalService.open(AnnouncementComponent, {centered: true, windowClass: 'AnnouncementModalClass'});
+    modalRef.componentInstance.orgName = this.data?.details?.org_name;
+    modalRef.componentInstance.newAnnouncement.subscribe((announcement: any) => this.announcements.push(announcement));
+  }
+
+  deleteAnnouncement(announcement: any): void {
+    this.dataService.deleteAnnouncement(announcement?.title, announcement?.author, announcement?.body, announcement?.creation_date, this.data?.details?.org_name).subscribe(res => {
+      this.announcements.filter(announcement => announcement !== res);
+    });
   }
 
   makeSampleOrgData(): void {

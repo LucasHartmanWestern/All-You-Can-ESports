@@ -1,0 +1,7 @@
+<div class="modal-body">
+  <form (submit)="createAnnouncement($event, title.value, body.value)">
+    <input type="text" placeholder="Type title here..." #title>
+    <textarea placeholder="Type body here..." #body></textarea>
+    <input type="submit" value="Create Announcement">
+  </form>
+</div>

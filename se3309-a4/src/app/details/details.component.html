@@ -19,14 +19,15 @@
 
       <div class="orgAnnouncements">
         <h3>Announcements</h3>
-        <button>Create new announcement</button>
+        <button class="create" (click)="createAnnouncement()" *ngIf="user?.access_level > 1">Create new announcement</button>
 
         <ul *ngIf="announcements?.length">
           <li *ngFor="let announcement of announcements">
+            <button *ngIf="user?.access_level > 1" (click)="deleteAnnouncement(announcement)">Delete</button>
             <h4>{{announcement?.title}}</h4>
-            <span>{{announcement?.author}}</span>
-            <span>{{announcement?.body}}</span>
-            <span>{{announcement?.creation_date}}</span>
+            <span class="author">{{announcement?.author}}</span>
+            <span class="body">{{announcement?.body}}</span>
+            <span class="date">{{announcement?.creation_date}}</span>
           </li>
         </ul>
       </div>

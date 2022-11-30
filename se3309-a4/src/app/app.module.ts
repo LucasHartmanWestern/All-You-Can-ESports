@@ -14,6 +14,7 @@ import { SearchComponent } from './core/common/header/search/search.component';
 import { ContentComponent } from './home/content/content.component';
 import { UsersComponent } from "./core/modals/users/users.component";
 import { DetailsComponent } from './details/details.component';
+import { AnnouncementComponent } from './core/modals/announcement/announcement.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { DetailsComponent } from './details/details.component';
     SearchComponent,
     ContentComponent,
     UsersComponent,
-    DetailsComponent
+    DetailsComponent,
+    AnnouncementComponent
   ],
   imports: [
     BrowserModule,
