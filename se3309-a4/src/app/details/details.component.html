@@ -37,11 +37,42 @@
   </div>
 
   <div *ngIf="data?.type === 'match'" class="matchDetails">
-    <span>{{data?.details?.location}}</span>
-    <span>{{data?.details?.match_date}}</span>
-    <span>{{data?.details?.team1_name}}</span>
-    <span>{{data?.details?.team2_name}}</span>
-    <span *ngIf="data?.details?.tournament">{{data?.details?.tournament}}</span>
+
+    <div class="matchUp">
+      <span>{{data?.details?.team1_name}}</span>
+      vs
+      <span>{{data?.details?.team2_name}}</span>
+    </div>
+
+    <div class="matchSpecifics">
+      <span>{{data?.details?.location}}</span>
+      <span>{{data?.details?.match_date}}</span>
+      <span *ngIf="data?.details?.tournament">{{data?.details?.tournament}}</span>
+    </div>
+
+    <div class="bets">
+      <div class="place">
+        <button *ngIf="!openBets" (click)="openBets = !openBets">Place bet</button>
+
+        <form *ngIf="openBets" (submit)="placeBet($event, team.value, amount.value); openBets = !openBets" #betForm>
+          <select #team>
+            <option [value]="data?.details?.team1_name">{{data?.details?.team1_name}}</option>
+            <option [value]="data?.details?.team2_name">{{data?.details?.team2_name}}</option>
+          </select>
+          <input type="text" placeholder="Amount" #amount>
+          <input type="submit" value="Place">
+        </form>
+      </div>
+
+      <h4>Bets</h4>
+      <ul *ngIf="bets.length">
+        <li *ngFor="let bet of bets">
+          <span>${{bet.amount}}</span>
+          <span>{{bet.team}}</span>
+        </li>
+      </ul>
+    </div>
+
   </div>
 
   <div *ngIf="data?.type === 'team'" class="teamDetails">

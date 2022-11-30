@@ -9,7 +9,6 @@
       margin-left: 24px;
     }
 
-
     .orgMain {
       display: flex;
       justify-content: space-around;
@@ -145,6 +144,105 @@
   }
 
   .matchDetails {
+    display: block;
+
+    .matchUp {
+      justify-content: center;
+      display: flex;
+      font-size: 24px;
+      line-height: 36px;
+
+      span {
+        font-weight: bold;
+        font-size: 36px;
+        margin: 8px;
+      }
+    }
+
+    .matchSpecifics {
+      display: block;
+      margin: auto;
+      font-size: 24px;
+      text-align: center;
+
+      span {
+        display: block;
+      }
+    }
+
+    .bets {
+      margin-top: 12px;
+      max-height: 70vh;
+      border: 1px solid #ecf0f1;
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+
+      .place {
+        margin: 24px;
+        border: 1px solid #ecf0f1;
+        border-radius: 12px;
+        padding: 24px;
+
+        button, input[type=submit], select {
+          border: none;
+          border-radius: 12px;
+          background-color: #ecf0f1;
+          box-shadow: rgb(99 99 99 / 20%) 0px 2px 8px 0px;
+          width: 150px;
+          height: 50px;
+          font-size: 24px;
+        }
+
+        form {
+          margin: auto;
+          width: 50%;
+          display: flex;
+          justify-content: space-around;
+
+          input[type=text] {
+            border: none;
+            background-color: #fafafa;
+            padding: 12px;
+            border-radius: 12px;
+            outline: none;
+            width: 250px;
+          }
+        }
+      }
+
+      ul {
+        width: calc(100% - 8px);
+        padding: 0;
+        display: grid;
+        gap: 10px;
+        grid-template-columns: repeat( auto-fit, minmax(200px, 1fr) );
+        list-style-type: none;
+        justify-content: center;
+        align-content: center;
+
+        li {
+          text-align: center;
+          padding: 24px;
+          margin: 24px auto;
+          width: 175px;
+          height: auto;
+          background-color: transparent;
+          box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+          border-radius: 18px;
+          transition: all 1s ease;
+          cursor: pointer;
+          font-size: small;
+
+          span {
+            display: block;
+            font-size: 24px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+          }
+        }
+      }
+    }
 
   }
 }

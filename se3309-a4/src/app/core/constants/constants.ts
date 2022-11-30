@@ -4,6 +4,7 @@ export const Constants = {
   apiPaths: {
     default: `${serverPrefix}`,
     credentials: `${serverPrefix}/user`,
-    announcements: `${serverPrefix}/announcement`
+    announcements: `${serverPrefix}/announcement`,
+    bets: `${serverPrefix}/bets`
   }
 }
