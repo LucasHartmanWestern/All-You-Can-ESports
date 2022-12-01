@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from "../../core/services/data.service";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-content',
@@ -8,7 +9,7 @@ import { DataService } from "../../core/services/data.service";
 })
 export class ContentComponent implements OnInit {
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService, private spinner: NgxSpinnerService) { }
 
   games: { game_name: string }[] = [];
   orgs: { org_name: string, team_count: number }[] = [];
@@ -22,12 +23,42 @@ export class ContentComponent implements OnInit {
       this.matches = [];
       this.teams = [];
 
-      if (res?.search?.type === 'org') this.dataService.getOrgs().subscribe(orgs => this.orgs = orgs);
-      if (res?.search?.type === 'game') this.dataService.getGames().subscribe(games => this.games = games);
-      if (res?.search?.type === 'match') this.dataService.getMatches(res?.search?.criteria?.match_date, res?.search?.criteria?.team_name, res?.search?.criteria?.location, res?.search?.criteria?.tournament)
-        .subscribe(matches => this.matches = matches);
-      if (res?.search?.type === 'team') this.dataService.getTeams(res?.search?.criteria?.team_name, res?.search?.criteria?.game_name, res?.search?.criteria?.org_name)
-        .subscribe(teams => this.teams = teams);
+      this.spinner.show();
+      if (res?.search?.type === 'org') {
+        this.spinner.show();
+        this.dataService.getOrgs().subscribe(orgs => {
+          this.spinner.hide();
+          this.orgs = orgs;
+        }, error => {
+          this.spinner.hide();
+        });
+      }
+      if (res?.search?.type === 'game') {
+        this.dataService.getGames().subscribe(games => {
+          this.spinner.hide();
+          this.games = games;
+        }, error => {
+          this.spinner.hide();
+        });
+      }
+      if (res?.search?.type === 'match') {
+        this.dataService.getMatches(res?.search?.criteria?.match_date, res?.search?.criteria?.team_name, res?.search?.criteria?.location, res?.search?.criteria?.tournament)
+          .subscribe(matches => {
+            this.spinner.hide();
+            this.matches = matches;
+            }, error => {
+            this.spinner.hide();
+          });
+      }
+      if (res?.search?.type === 'team') {
+        this.dataService.getTeams(res?.search?.criteria?.team_name, res?.search?.criteria?.game_name, res?.search?.criteria?.org_name)
+          .subscribe(teams => {
+            this.spinner.hide();
+            this.teams = teams;
+            }, error => {
+            this.spinner.hide();
+        });
+      }
     });
   }
 
@@ -37,7 +68,13 @@ export class ContentComponent implements OnInit {
 
   getTeamsByGame(gameName: string): void {
     this.games = [];
+    this.spinner.show();
     this.dataService.getTeams('', gameName, '')
-      .subscribe(teams => this.teams = teams);
+      .subscribe(teams => {
+        this.spinner.hide();
+        this.teams = teams;
+      }, error => {
+        this.spinner.hide();
+    });
   }
 }

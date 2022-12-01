@@ -23,11 +23,13 @@ export class AnnouncementComponent implements OnInit {
   }
 
   createAnnouncement(event: any, title: string, body: string): void {
+    this.spinner.show();
     event.preventDefault();
 
     this.dataService.createAnnouncement(title, this.user?.name, body, new Date().toISOString().split('T')[0], this.orgName).subscribe(res => {
       this.newAnnouncement.emit(res);
-    });
+      this.spinner.hide();
+    }, error => this.spinner.hide());
 
     this.close();
   }

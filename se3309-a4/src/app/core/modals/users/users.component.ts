@@ -21,7 +21,7 @@ export class UsersComponent implements OnInit {
     this.authenticationService.getUsers().subscribe(res => {
       this.userList = res;
       this.spinner.hide();
-    });
+    }, error => this.spinner.hide());
   }
 
   changeMade(user: any, newValue: string, att: string): void {

@@ -25,15 +25,12 @@ export class LoginComponent implements OnInit {
     else {
       // Authenticate the user
       this.spinner.show();
-      this.router.navigateByUrl('home');
-
       this.authenticationService.login(email, password).subscribe(res => {
-
         if (res?.jwt) {
           this.credentials.emit({jwt: res?.jwt});
           localStorage.setItem('token', res?.jwt);
+          this.router.navigateByUrl('home');
         }
-
         this.spinner.hide();
       }, error => {
         this.spinner.hide();
@@ -68,11 +65,11 @@ export class LoginComponent implements OnInit {
   continueAsGuest(): void {
     // Assign guest account
     this.spinner.show();
-    this.router.navigateByUrl('home');
     this.authenticationService.continueAsGuest().subscribe(res => {
       this.spinner.hide();
       this.credentials.emit({jwt: res.jwt});
       localStorage.setItem('token', res.jwt);
+      this.router.navigateByUrl('home');
     }, error => {
       this.spinner.hide();
       this.error = error;
