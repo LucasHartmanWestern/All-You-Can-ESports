@@ -21,6 +21,8 @@
     "@ng-bootstrap/ng-bootstrap": "^13.1.1",
     "bootstrap": "^5.2.3",
     "globby": "^13.1.2",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.18.1",
     "ngx-spinner": "^14.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
