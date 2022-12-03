@@ -32,11 +32,11 @@
 
       <tr *ngFor="let match of matches" (click)="setDetails('match', match)">
         <td>{{match?.match_date}}</td>
-        <td>{{match?.team1_name}}</td>
-        <td>{{match?.team2_name}}</td>
+        <td>{{match?.team1}}</td>
+        <td>{{match?.team2}}</td>
         <td>{{match?.location}}</td>
         <td>{{match?.tournament}}</td>
-        <td>{{match?.winner === 1 ? match?.team1_name : match?.winner === 2 ? match?.team2_name : ''}}</td>
+        <td>{{match?.winner === 1 ? match?.team1 : match?.winner === 2 ? match?.team2 : ''}}</td>
       </tr>
     </table>
   </ng-container>

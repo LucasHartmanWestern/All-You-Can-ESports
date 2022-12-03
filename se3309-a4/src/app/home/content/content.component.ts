@@ -13,7 +13,7 @@ export class ContentComponent implements OnInit {
 
   games: { name: string }[] = [];
   orgs: { name: string, team_count: number }[] = [];
-  matches: { match_date: string, team1_name: string, team2_name: string, location: string, tournament: string | null, winner: number }[] = [];
+  matches: { match_date: string, team1: string, team2: string, location: string, tournament: string | null, winner: number }[] = [];
   teams: { name: string, wins: number, losses: number, organization: string }[] = [];
 
   ngOnInit(): void {
