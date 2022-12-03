@@ -11,7 +11,7 @@
             <th>Teams</th>
           </tr>
 
-          <tr *ngFor="let team of orgTeams" (click)="this.data = { type: 'team', details: team }">
+          <tr *ngFor="let team of orgTeams" (click)="this.data = { type: 'team', details: team }; getTeamPlayers()">
             <td>{{team?.name}}</td>
           </tr>
         </table>
@@ -39,18 +39,18 @@
   <div *ngIf="data?.type === 'match'" class="matchDetails">
 
     <div class="matchUp">
-      <span [ngClass]="{'winner': data?.details?.winner === 1}">{{data?.details?.team1_name}}</span>
+      <span [ngClass]="{'winner': data?.details?.winner === 1}">{{data?.details?.team1}}</span>
       vs
-      <span [ngClass]="{'winner': data?.details?.winner === 2}">{{data?.details?.team2_name}}</span>
+      <span [ngClass]="{'winner': data?.details?.winner === 2}">{{data?.details?.team2}}</span>
     </div>
 
-    <button class="addWinner" [hidden]="user.access_level < 2 || data?.details?.winner !== 0" [ngbPopover]="result" [autoClose]="false" placement="auto" #resultPopover="ngbPopover">Add Winner</button>
+    <button class="addWinner" [hidden]="user.access_level < 2 || data?.details?.winner < 1" [ngbPopover]="result" [autoClose]="false" placement="auto" #resultPopover="ngbPopover">Add Winner</button>
 
     <ng-template #result>
       <form (submit)="updateMatchOutcome($event, winner.value); resultPopover.close()">
         <select #winner>
-          <option [value]="1">{{data?.details?.team1_name}}</option>
-          <option [value]="1">{{data?.details?.team2_name}}</option>
+          <option [value]="1">{{data?.details?.team1}}</option>
+          <option [value]="1">{{data?.details?.team2}}</option>
         </select>
         <input type="submit" value="Save">
       </form>
@@ -58,18 +58,18 @@
 
     <div class="matchSpecifics">
       <span>{{data?.details?.location}}</span>
-      <span>{{data?.details?.match_date}}</span>
+      <span>{{data?.details?.match_date.split('T')[0]}}</span>
       <span *ngIf="data?.details?.tournament">{{data?.details?.tournament}}</span>
     </div>
 
     <div class="bets">
-      <div class="place" *ngIf="data?.details?.winner === 0">
+      <div class="place" *ngIf="data?.details?.winner !== 0 && user.access_level > 0">
         <button *ngIf="!openBets" (click)="openBets = !openBets">Place bet</button>
 
         <form *ngIf="openBets" (submit)="placeBet($event, team.value, amount.value); openBets = !openBets" #betForm>
           <select #team>
-            <option [value]="data?.details?.team1_name">{{data?.details?.team1_name}}</option>
-            <option [value]="data?.details?.team2_name">{{data?.details?.team2_name}}</option>
+            <option [value]="data?.details?.team1">{{data?.details?.team1}}</option>
+            <option [value]="data?.details?.team2">{{data?.details?.team2}}</option>
           </select>
           <input type="text" placeholder="Amount" #amount>
           <input type="submit" value="Place">
@@ -91,8 +91,25 @@
     <h1>{{data?.details.name}}</h1>
     <span>{{data?.details?.organization}}</span>
     <div class="stats">
-      <span>{{data?.details?.wins}}</span>
-      <span>{{data?.details?.losses}}</span>
+      <span>{{data?.details?.wins}} Wins</span>
+      <span>{{data?.details?.losses}} Losses</span>
+    </div>
+
+    <h3>Players</h3>
+    <div class="playerList">
+      <table *ngIf="teamPlayers.length">
+        <tr class="headers">
+          <th>Name</th>
+          <th>Wins</th>
+          <th>Losses</th>
+        </tr>
+
+        <tr *ngFor="let player of teamPlayers">
+          <td>{{player?.name}}</td>
+          <td>{{player?.wins}}</td>
+          <td>{{player?.losses}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 

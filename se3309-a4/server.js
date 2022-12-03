@@ -285,7 +285,8 @@ app.put('/api/v1/user/create', async (req, res) => {
           const token = jwt.sign({
             exp: Math.floor(Date.now() / 1000) + (5 * 60 * 60), // 5 hour expiry
             name: req.body.name,
-            password: req.body.password
+            user_id: result[0].user_id,
+            access_level: result[0].access_level
           }, process.env.JWT_KEY || 'se3309');
 
           res.send({jwt: token});
@@ -311,6 +312,7 @@ app.post('/api/v1/user/login', async (req, res) => {
         const token = jwt.sign({
           exp: Math.floor(Date.now() / 1000) + (5 * 60 * 60), // 5 hour expiry
           name: result[0].name,
+          user_id: result[0].user_id,
           access_level: result[0].access_level
         }, process.env.JWT_KEY || 'se3309');
 
@@ -333,6 +335,7 @@ app.post('/api/v1/user/guest', async (req, res) => {
   const token = jwt.sign({
     exp: Math.floor(Date.now() / 1000) + (5 * 60 * 60), // 5 hour expiry
     name: 'guest',
+    user_id: 0,
     access_level: 0
   }, process.env.JWT_KEY || 'se3309');
 

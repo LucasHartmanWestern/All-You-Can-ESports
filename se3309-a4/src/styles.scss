@@ -18,5 +18,9 @@ select {
   max-width: 1000px !important;
 }
 
+.FantasyModalClass .modal-dialog {
+  max-width: calc(100% - 48px) !important;
+}
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';

@@ -15,6 +15,7 @@ import { ContentComponent } from './home/content/content.component';
 import { UsersComponent } from "./core/modals/users/users.component";
 import { DetailsComponent } from './details/details.component';
 import { AnnouncementComponent } from './core/modals/announcement/announcement.component';
+import { FantasyComponent } from './core/modals/fantasy/fantasy.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { AnnouncementComponent } from './core/modals/announcement/announcement.c
     ContentComponent,
     UsersComponent,
     DetailsComponent,
-    AnnouncementComponent
+    AnnouncementComponent,
+    FantasyComponent
   ],
   imports: [
     BrowserModule,

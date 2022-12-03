@@ -17,7 +17,8 @@ export class DetailsComponent implements OnInit {
   orgTeams: { name: string, wins: number, losses: number, organization: string }[] = [];
   announcements: { title: string, author: string, body: string, creation_date: string }[] = [];
   openBets: boolean = false;
-  bets: { holder: number, amount: number, match_location: string, match_date: string, team: string }[] = [];
+  bets: { holder: number, amount: number, location: string, match_date: string, team: string }[] = [];
+  teamPlayers: {id: number, name: string, wins: number, losses: number}[] = [];
 
   helper = new JwtHelperService();
   user: any = this.helper.decodeToken(localStorage.getItem('token') || undefined);
@@ -46,15 +47,25 @@ export class DetailsComponent implements OnInit {
 
     if (this.data?.type === 'match') {
       this.spinner.show();
-      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.match_location, this.data?.details?.team1_name).subscribe(bets => {
+      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.location, this.data?.details?.team1_name).subscribe(bets => {
         this.spinner.hide();
         bets.forEach((bet: any) => this.bets.push(bet));
       }, error => this.spinner.hide());
-      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.match_location, this.data?.details?.team2_name).subscribe(bets => {
+      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.location, this.data?.details?.team2_name).subscribe(bets => {
         this.spinner.hide();
         bets.forEach((bet: any) => this.bets.push(bet));
       }, error => this.spinner.hide());
     }
+
+    if (this.data?.type === 'team') {
+      this.getTeamPlayers();
+    }
+  }
+
+  getTeamPlayers(): void {
+    this.dataService.getTeamPlayers(this.data?.details?.name).subscribe(res => {
+      this.teamPlayers = res;
+    });
   }
 
   createAnnouncement(): void {
@@ -73,8 +84,9 @@ export class DetailsComponent implements OnInit {
 
   placeBet(event: any, team: string, amount: string): void {
     this.spinner.show();
+    console.log(this.user);
     event.preventDefault();
-    this.dataService.placeBet(parseInt(amount), this.user?.user_id, this.data?.details?.match_location, this.data?.details?.match_date, team).subscribe(res => {
+    this.dataService.placeBet(parseInt(amount), this.user?.user_id, this.data?.details?.location, this.data?.details?.match_date.split('T')[0], team).subscribe(res => {
       this.spinner.hide();
       this.bets.push(res);
     }, error => this.spinner.hide());
@@ -83,11 +95,10 @@ export class DetailsComponent implements OnInit {
   updateMatchOutcome(event: any, result: string): void {
     this.spinner.show();
     event.preventDefault();
-    this.dataService.updateOutcome(this.data?.details?.match_location, this.data?.details?.match_date, this.data?.details?.team1_name, this.data?.details?.team2_name, parseInt(result)).subscribe(res => {
+    this.dataService.updateOutcome(this.data?.details?.location, this.data?.details?.match_date.split('T')[0], this.data?.details?.team1, this.data?.details?.team2, parseInt(result)).subscribe(res => {
       this.spinner.hide();
       // @ts-ignore
       this.data.details = res;
     }, error => this.spinner.hide());
   }
-
 }

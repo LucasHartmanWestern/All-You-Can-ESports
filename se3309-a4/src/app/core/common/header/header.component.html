@@ -13,7 +13,8 @@
   <ng-template #profile>
     <div class="profile__options">
       <button (click)="logout()">Logout</button>
-      <button (click)="openUsers()">Users</button>
+      <button (click)="openUsers()" *ngIf="user.access_level > 2">Users</button>
+      <button (click)="openFantasyBuilder()" *ngIf="user.access_level > 0">Fantasy Team</button>
     </div>
   </ng-template>
 </div>
