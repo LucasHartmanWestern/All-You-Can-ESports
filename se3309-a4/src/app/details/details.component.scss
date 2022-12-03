@@ -318,4 +318,60 @@
     }
 
   }
+
+  .tournamentDetails {
+    h1 {
+      margin-left: 24px;
+    }
+
+    .tournamentMain {
+      display: flex;
+      justify-content: space-around;
+
+      .tournamentLeaderboard {
+        max-height: 80vh;
+        overflow-y: scroll;
+        padding: 12px;
+        width: 20%;
+
+        table {
+          width: 100%;
+          border-collapse: separate;
+          border-spacing: 0 0.5em;
+
+          .headers {
+            font-size: 1.4rem;
+            background-color: white;
+            border-radius: 12px;
+            position: sticky;
+            top: 10px;
+            box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+            th {
+              border-radius: 12px;
+              padding: 12px;
+              text-align: left;
+            }
+          }
+          tr {
+            margin-bottom: 12px;
+            cursor: pointer;
+
+            &:hover:not(.headers) {
+              background-color: #ecf0f1;
+            }
+
+            td {
+              padding: 12px;
+              font-size: 1rem;
+            }
+          }
+        }
+      }
+
+      .ticketGraph {
+        width: 80%;
+      }
+    }
+  }
 }

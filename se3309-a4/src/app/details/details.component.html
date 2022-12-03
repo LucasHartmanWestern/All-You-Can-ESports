@@ -113,4 +113,28 @@
     </div>
   </div>
 
+  <div *ngIf="data?.type === 'tournament'" class="tournamentDetails">
+    <h1>{{data?.details?.name}}</h1>
+
+    <div class="tournamentMain">
+
+      <div class="tournamentLeaderboard" *ngIf="leaderboard.length">
+        <table>
+          <tr class="headers">
+            <th>Leaderboard</th>
+          </tr>
+
+          <tr *ngFor="let team of leaderboard" (click)="this.data = { type: 'team', details: team }; getTeamPlayers()">
+            <td>{{team?.name}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="ticketGraph">
+
+      </div>
+
+    </div>
+  </div>
+
 </div>

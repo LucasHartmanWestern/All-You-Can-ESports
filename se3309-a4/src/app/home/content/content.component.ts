@@ -15,6 +15,7 @@ export class ContentComponent implements OnInit {
   orgs: { name: string, team_count: number }[] = [];
   matches: { match_date: string, team1: string, team2: string, location: string, tournament: string | null, winner: number }[] = [];
   teams: { name: string, wins: number, losses: number, organization: string }[] = [];
+  tournaments: {name: string, start_date: string, end_date: string, game: string, entries: {team_name: string}[] }[] = [];
 
   ngOnInit(): void {
     this.dataService.newSearch$.subscribe((res: any) => {
@@ -22,6 +23,7 @@ export class ContentComponent implements OnInit {
       this.orgs = [];
       this.matches = [];
       this.teams = [];
+      this.tournaments = [];
 
       this.spinner.show();
       if (res?.search?.type === 'org') {
@@ -59,6 +61,17 @@ export class ContentComponent implements OnInit {
             this.spinner.hide();
         });
       }
+      if (res?.search?.type === 'tournament') {
+        // this.dataService.getTournaments(res?.search?.criteria?.name)
+        //   .subscribe(tournaments => {
+        //     this.spinner.hide();
+        //     this.tournaments = tournaments;
+        //   }, error => {
+        //     this.spinner.hide();
+        // });
+        this.addSampleData();
+        this.spinner.hide();
+      }
     });
   }
 
@@ -76,5 +89,41 @@ export class ContentComponent implements OnInit {
       }, error => {
         this.spinner.hide();
     });
+  }
+
+  addSampleData(): void {
+    this.tournaments = [
+      {name: "Tournament 1", start_date: "2022-01-01", end_date: "2022-01-02", game: "Elden Ring", entries: [
+          {team_name: "Team 1"},
+          {team_name: "Team 2"},
+          {team_name: "Team 3"}
+          ]
+      },{name: "Tournament 2", start_date: "2022-01-01", end_date: "2022-01-02", game: "Elden Ring", entries: [
+          {team_name: "Team 1"},
+          {team_name: "Team 2"},
+          {team_name: "Team 3"}
+        ]
+      },{name: "Tournament 3", start_date: "2022-01-01", end_date: "2022-01-02", game: "Elden Ring", entries: [
+          {team_name: "Team 1"},
+          {team_name: "Team 2"},
+          {team_name: "Team 3"}
+        ]
+      },{name: "Tournament 4", start_date: "2022-01-01", end_date: "2022-01-02", game: "Elden Ring", entries: [
+          {team_name: "Team 1"},
+          {team_name: "Team 2"},
+          {team_name: "Team 3"}
+        ]
+      },{name: "Tournament 5", start_date: "2022-01-01", end_date: "2022-01-02", game: "Elden Ring", entries: [
+          {team_name: "Team 1"},
+          {team_name: "Team 2"},
+          {team_name: "Team 3"}
+        ]
+      },{name: "Tournament 6", start_date: "2022-01-01", end_date: "2022-01-02", game: "Elden Ring", entries: [
+          {team_name: "Team 1"},
+          {team_name: "Team 2"},
+          {team_name: "Team 3"}
+        ]
+      },
+    ];
   }
 }

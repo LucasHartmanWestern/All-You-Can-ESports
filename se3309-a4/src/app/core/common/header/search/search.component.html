@@ -4,6 +4,7 @@
     <option value="game">Games</option>
     <option value="team">Teams</option>
     <option value="match">Matches</option>
+    <option value="tournament">Tournaments</option>
   </select>
 
   <form *ngIf="searchSelect.value === 'team'" name="searchForm" class="searchForm" (submit)="searchTeam($event, team.value, org.value, game.value); team.value = ''; org.value = ''; game.value = ''">
@@ -36,6 +37,13 @@
     </div>
     <div class="searchBox">
       <input name="tournament" type="text" placeholder="Search by Tournament" #tournament>
+      <input type="submit" class="searchBtn" value="">
+    </div>
+  </form>
+
+  <form *ngIf="searchSelect.value === 'tournament'" name="searchForm" class="searchForm" (submit)="searchTournament($event, tournament.value); tournament.value = ''">
+    <div class="searchBox">
+      <input name="tournamentName" type="text" placeholder="Tournament Name" #tournament>
       <input type="submit" class="searchBtn" value="">
     </div>
   </form>

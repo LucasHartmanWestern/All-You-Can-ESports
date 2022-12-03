@@ -19,6 +19,7 @@ export class DetailsComponent implements OnInit {
   openBets: boolean = false;
   bets: { holder: number, amount: number, location: string, match_date: string, team: string }[] = [];
   teamPlayers: {id: number, name: string, wins: number, losses: number}[] = [];
+  leaderboard: { name: string, wins: number, losses: number }[] = [];
 
   helper = new JwtHelperService();
   user: any = this.helper.decodeToken(localStorage.getItem('token') || undefined);
@@ -60,6 +61,18 @@ export class DetailsComponent implements OnInit {
     if (this.data?.type === 'team') {
       this.getTeamPlayers();
     }
+
+    if (this.data?.type === 'tournament') {
+      // this.spinner.show();
+      // this.dataService.getTournamentLeaderboard(this.data?.details?.name).subscribe(teams => {
+      //   this.spinner.hide();
+      //   this.leaderboard = teams;
+      // }, error => this.spinner.hide());
+
+      this.addSampleData();
+    }
+
+    console.log(this.data);
   }
 
   getTeamPlayers(): void {
@@ -113,5 +126,16 @@ export class DetailsComponent implements OnInit {
       alert(error);
       this.spinner.hide();
     });
+  }
+
+  addSampleData(): void {
+    this.leaderboard = [
+      { name: "Team 1", wins: 10, losses: 1 },
+      { name: "Team 2", wins: 9, losses: 2 },
+      { name: "Team 3", wins: 8, losses: 2 },
+      { name: "Team 4", wins: 6, losses: 5 },
+      { name: "Team 5", wins: 4, losses: 6 },
+      { name: "Team 6", wins: 2, losses: 8 }
+    ];
   }
 }
