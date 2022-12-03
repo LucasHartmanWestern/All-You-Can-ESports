@@ -118,6 +118,62 @@ export class DataService {
     );
   }
 
+  getPlayers(): Observable<any> {
+    return this.http.get<any>(`${Constants.apiPaths.match}/results`, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  createTeam(team_name: string, game_name: string, organization: string | null, fantasy_builder: string | null, players: [id: number]): Observable<any> {
+    return this.http.put<any>(`${Constants.apiPaths.match}/results`, {
+      team_name: team_name,
+      game_name: game_name,
+      organization: organization,
+      fantasy_builder: fantasy_builder,
+      players: players
+    }, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  searchFantasyTeam(fantasy_builder: number): Observable<any> {
+    return this.http.get<any>(`${Constants.apiPaths.default}/fantasy?fantasy_builder=${fantasy_builder}`, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  getTeamPlayers(team_name: string): Observable<any> {
+    return this.http.get<any>(`${Constants.apiPaths.team}/players?team_name=${team_name}`, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  getTournaments(name?: string): Observable<any> {
+    return this.http.get<any>(`${Constants.apiPaths.tournaments}${name ? '?name=' + name : ''}`, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  getTournamentLeaderboard(name: string): Observable<any> {
+    return this.http.get<any>(`${Constants.apiPaths.tournaments}/leaderboard?name=${name}`, {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
+  getPPVData(tournament_name?: string, match_location?: string, match_date?: string): Observable<any> {
+    return this.http.get<any>(`${Constants.apiPaths.ppv}?${tournament_name ? 'tournament_name=' + tournament_name : 'match_location=' + match_location + '&match_date=' + match_date}`,
+      {headers: this.httpHeaders}).pipe(
+      map((data: any) => data),
+      catchError(this.handleError)
+    );
+  }
+
   private handleError(err: HttpErrorResponse) {
 
 
