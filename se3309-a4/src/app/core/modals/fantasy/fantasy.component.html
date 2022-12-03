@@ -1,0 +1,65 @@
+<div class="modal-body">
+
+  <h1>Fantasy Team Builder</h1>
+
+  <div class="teamBuilder">
+
+    <div class="playerSelector">
+      <input type="text" placeholder="Search Players..." (keyup)="playerFilter = search.value" #search>
+
+      <div class="playerList">
+        <table *ngIf="getFilteredPlayers().length">
+          <tr class="headers">
+            <th>Name</th>
+            <th>Wins</th>
+            <th>Losses</th>
+            <th></th>
+          </tr>
+
+          <tr *ngFor="let player of getFilteredPlayers()">
+            <td>{{player?.name}}</td>
+            <td>{{player?.wins}}</td>
+            <td>{{player?.losses}}</td>
+            <td (click)="selectPlayer(player)" [textContent]="!isOnTeam(player) ? '+' : '-'"></td>
+          </tr>
+        </table>
+      </div>
+
+    </div>
+
+    <div class="teamPreview">
+
+      <div class="teamSelectorCreator">
+        <select (change)="selectTeam(chosenTeam.value)" *ngIf="!createForm && userTeams.length" #chosenTeam>
+          <option *ngFor="let team of userTeams" [value]="team?.team_name" [selected]="team == this.selectedTeam">{{team?.team_name}}</option>
+        </select>
+
+        <button (click)="createForm = true" *ngIf="!createForm">Create Team</button>
+        <form *ngIf="createForm" (submit)="createNewTeam($event, name.value, game.value)">
+          <input type="text" placeholder="Team Name..." #name>
+          <select #game>
+            <option *ngFor="let game of games">{{game.name}}</option>
+          </select>
+          <input type="submit" value="Create">
+        </form>
+
+      </div>
+      <ul>
+        <li *ngFor="let player of fantasyRoster" (click)="selectPlayer(player)">
+          <div class="playerImg"></div>
+          <span>{{player?.name}}</span>
+          <div class="stats">
+            <span>W: {{player?.wins}}</span>
+            <span>L: {{player?.losses}}</span>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="actionBtns">
+    <button (click)="close()">Close</button>
+    <button (click)="saveTeam()" [disabled]="!selectedTeam">Save</button>
+  </div>
+
+</div>

@@ -119,14 +119,14 @@ export class DataService {
   }
 
   getPlayers(): Observable<any> {
-    return this.http.get<any>(`${Constants.apiPaths.match}/results`, {headers: this.httpHeaders}).pipe(
+    return this.http.get<any>(`${Constants.apiPaths.players}`, {headers: this.httpHeaders}).pipe(
       map((data: any) => data),
       catchError(this.handleError)
     );
   }
 
-  createTeam(team_name: string, game_name: string, organization: string | null, fantasy_builder: string | null, players: [id: number]): Observable<any> {
-    return this.http.put<any>(`${Constants.apiPaths.match}/results`, {
+  saveTeam(team_name: string, game_name: string, organization: string | null, fantasy_builder: string | null, players: number[]): Observable<any> {
+    return this.http.put<any>(`${Constants.apiPaths.team}`, {
       team_name: team_name,
       game_name: game_name,
       organization: organization,
