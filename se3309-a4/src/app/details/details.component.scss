@@ -49,11 +49,6 @@
             td {
               padding: 12px;
               font-size: 1rem;
-
-              .trackImage {
-                height: 48px;
-                aspect-ratio: 1;
-              }
             }
           }
         }
@@ -140,6 +135,56 @@
   }
 
   .teamDetails {
+    text-align: center;
+
+    span {
+      font-size: 24px;
+      margin-top: -8px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-around;
+
+      span {
+        font-size: 16px !important;
+      }
+    }
+
+    .playerList {
+      max-height: 70vh;
+      overflow-y: scroll;
+      margin-top: 12px;
+
+      table {
+        width: 100%;
+
+        .headers {
+          font-size: 1.4rem;
+          background-color: white;
+          position: sticky;
+          top: 0;
+          box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+          th {
+            border-radius: 12px;
+            padding: 12px;
+            text-align: left;
+            font-size: 14px;
+          }
+        }
+        tr {
+          margin-bottom: 12px;
+
+          td {
+            padding: 12px;
+            font-size: 1rem;
+            text-align: left;
+          }
+        }
+      }
+    }
+
 
   }
 

@@ -18,6 +18,7 @@ export class DetailsComponent implements OnInit {
   announcements: { title: string, author: string, body: string, creation_date: string }[] = [];
   openBets: boolean = false;
   bets: { holder: number, amount: number, match_location: string, match_date: string, team: string }[] = [];
+  teamPlayers: {id: number, name: string, wins: number, losses: number}[] = [];
 
   helper = new JwtHelperService();
   user: any = this.helper.decodeToken(localStorage.getItem('token') || undefined);
@@ -55,6 +56,16 @@ export class DetailsComponent implements OnInit {
         bets.forEach((bet: any) => this.bets.push(bet));
       }, error => this.spinner.hide());
     }
+
+    if (this.data?.type === 'team') {
+      this.getTeamPlayers();
+    }
+  }
+
+  getTeamPlayers(): void {
+    this.dataService.getTeamPlayers(this.data?.details?.name).subscribe(res => {
+      this.teamPlayers = res;
+    });
   }
 
   createAnnouncement(): void {
@@ -89,5 +100,4 @@ export class DetailsComponent implements OnInit {
       this.data.details = res;
     }, error => this.spinner.hide());
   }
-
 }

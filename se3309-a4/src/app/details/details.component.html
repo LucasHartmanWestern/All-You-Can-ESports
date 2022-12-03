@@ -11,7 +11,7 @@
             <th>Teams</th>
           </tr>
 
-          <tr *ngFor="let team of orgTeams" (click)="this.data = { type: 'team', details: team }">
+          <tr *ngFor="let team of orgTeams" (click)="this.data = { type: 'team', details: team }; getTeamPlayers()">
             <td>{{team?.name}}</td>
           </tr>
         </table>
@@ -91,8 +91,25 @@
     <h1>{{data?.details.name}}</h1>
     <span>{{data?.details?.organization}}</span>
     <div class="stats">
-      <span>{{data?.details?.wins}}</span>
-      <span>{{data?.details?.losses}}</span>
+      <span>{{data?.details?.wins}} Wins</span>
+      <span>{{data?.details?.losses}} Losses</span>
+    </div>
+
+    <h3>Players</h3>
+    <div class="playerList">
+      <table *ngIf="teamPlayers.length">
+        <tr class="headers">
+          <th>Name</th>
+          <th>Wins</th>
+          <th>Losses</th>
+        </tr>
+
+        <tr *ngFor="let player of teamPlayers">
+          <td>{{player?.name}}</td>
+          <td>{{player?.wins}}</td>
+          <td>{{player?.losses}}</td>
+        </tr>
+      </table>
     </div>
   </div>
 

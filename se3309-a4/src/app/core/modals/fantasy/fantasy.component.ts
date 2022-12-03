@@ -26,31 +26,29 @@ export class FantasyComponent implements OnInit {
   constructor(private dataService: DataService, public activeModal: NgbActiveModal, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    // this.spinner.show();
-    // this.dataService.getPlayers().subscribe(res => {
-    //   this.allPlayers = res;
-    //   this.spinner.hide();
-    // }, error => {
-    //   this.spinner.hide();
-    //   alert(error);
-    // });
-    //
-    // this.dataService.searchFantasyTeam(this.user.user_id).subscribe(res => {
-    //   this.userTeams = res;
-    //   this.spinner.hide();
-    //   if (this.userTeams?.length) {
-    //     this.selectTeam(this.userTeams[0]);
-    //   }
-    // }, error => {
-    //   this.spinner.hide();
-    //   alert(error);
-    // });
+    this.spinner.show();
+    this.dataService.getPlayers().subscribe(res => {
+      this.allPlayers = res;
+      this.spinner.hide();
+    }, error => {
+      this.spinner.hide();
+      alert(error);
+    });
+
+    this.dataService.searchFantasyTeam(this.user.user_id).subscribe(res => {
+      this.userTeams = res;
+      this.spinner.hide();
+      if (this.userTeams?.length) {
+        this.selectTeam(this.userTeams[0].team_name);
+      }
+    }, error => {
+      this.spinner.hide();
+      alert(error);
+    });
 
     this.dataService.getGames().subscribe(res => {
       this.games = res;
     });
-
-    this.addSampleData();
   }
 
   getFilteredPlayers(): any[] {
@@ -105,29 +103,6 @@ export class FantasyComponent implements OnInit {
 
   close(): void {
     this.activeModal.close();
-  }
-
-  addSampleData(): void {
-    this.allPlayers = [
-      { id: 1, name: "Test 1", wins: 1, losses: 9 },
-      { id: 2, name: "Test 2", wins: 2, losses: 8 },
-      { id: 3, name: "Test 3", wins: 3, losses: 7 },
-      { id: 4, name: "Test 4", wins: 4, losses: 6 },
-      { id: 5, name: "Test 5", wins: 5, losses: 5 },
-      { id: 6, name: "Test 6", wins: 6, losses: 4 },
-      { id: 7, name: "Test 7", wins: 7, losses: 3 },
-      { id: 8, name: "Test 8", wins: 8, losses: 2 },
-      { id: 9, name: "Test 9", wins: 9, losses: 1 },
-      { id: 10, name: "Test 10", wins: 1, losses: 9 },
-      { id: 11, name: "Test 11", wins: 2, losses: 8 },
-      { id: 12, name: "Test 12", wins: 3, losses: 7 },
-      { id: 13, name: "Test 13", wins: 4, losses: 6 },
-      { id: 14, name: "Test 14", wins: 5, losses: 5 },
-      { id: 15, name: "Test 15", wins: 6, losses: 4 },
-      { id: 16, name: "Test 16", wins: 7, losses: 3 },
-      { id: 17, name: "Test 17", wins: 8, losses: 2 },
-      { id: 18, name: "Test 18", wins: 9, losses: 1 }
-    ];
   }
 
 }
