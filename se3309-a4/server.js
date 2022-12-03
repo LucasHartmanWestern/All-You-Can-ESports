@@ -254,5 +254,130 @@ app.post('/api/v1/match/results', (req, res) => {
   // Sent Object Structure:
   // Endpoint output: {match_location: string, match_date: string, team1: string, team2: string, result: 1 or 2} 
 });
+
+app.put('/api/v1/user/create', async (req, res) => {
+
+  // Received Object Structure:
+  // {name: string, password: string, email: string}
+
+  // Retrieve and verify input parameters
+  const {username,password,email} = req.body;
+
+  var existsCheck = `SELECT * FROM generic_users WHERE name = ? OR email = ?`;
+    con.query(existsCheck,[username,email], function (err, result) {
+      if (err) throw err;
+      if (result.length) res.status(400).send('Username or Email already taken');
+      else {
+        var sql = `INSERT INTO generic_users (name, email, password) VALUES(?,?,?)`;
+        var sql2 = "SELECT user_id, name, access_level FROM generic_users WHERE name = ? AND email = ?"
+        con.query(sql+";"+sql2,[username,email,password,username,email], async function (err, result) {
+          if (err) {
+            res.status(500);
+            throw err;
+          }
+          const token = jwt.sign({
+            exp: Math.floor(Date.now() / 1000) + (5 * 60 * 60), // 5 hour expiry
+            username: req.body.username,
+            password: req.body.password
+          }, process.env.JWT_KEY || 'se3309');
+
+          res.send(result[1]);
+        });
+      }
+    });
+  // Sent Object Structure:
+  //  JWT with {user_id: int, name: string, access_level: int} 
+});
+
+app.post('/api/v1/user/login', async (req, res) => {
+
+  // Received Object Structure:
+  // {email: string, password: string}  
+
+  // Retrieve and verify input parameters
+  const {email,password} = req.body;
+
+  var sql = `SELECT * FROM generic_users WHERE email = ? AND password = ?`;
+  con.query(sql,[email,password], function (err, result) {
+    if (err) throw err;
+    if (result.length) {
+        const token = jwt.sign({
+          exp: Math.floor(Date.now() / 1000) + (5 * 60 * 60), // 5 hour expiry
+          username: result[0].username,
+          access_level: result[0].access_level
+        }, process.env.JWT_KEY || 'se3309');
+
+        res.send({jwt: token});
+      
+    }
+    else res.status(400).send("Invalid Credentials");
+  });
+
+  // Sent Object Structure:
+  // JWT with {user_id: int, name: string, access_level: int} 
+});
+
+app.post('/api/v1/user/guest', async (req, res) => {
+
+  // Received Object Structure:
+  // {match_location: string, match_date: string, team1: string, team2: string, result: 1 or 2}  
+
+  // Retrieve and verify input parameters
+  const token = jwt.sign({
+    exp: Math.floor(Date.now() / 1000) + (5 * 60 * 60), // 5 hour expiry
+    username: 'guest',
+    access_level: 0
+  }, process.env.JWT_KEY || 'se3309');
+
+  res.send({jwt: token});
+
+  // Sent Object Structure:
+  //JWT with {user_id: 0, name: “guest”, access_level: 1} 
+});
+
+app.get('/api/v1/user', async (req, res) => {
+
+  // Received Object Structure:
+  // N/A
+
+  let token = req.header('Authorization');
+  jwt.verify(token, process.env.JWT_KEY || 'se3309', (err, decoded) => {
+    if (err) res.status(500);
+    if (decoded.access_level !== 3) return;
+
+    var sql = `SELECT name, email,account_balance, access_level FROM generic_users;`;
+    con.query(sql, function (err, result) {
+      if (err) throw err;
+      else {
+        res.status(200).send(result);
+      }
+    });
+  });
+  
+  // Sent Object Structure:
+  // Endpoint output: […, {name: string, email: string, account_balance: float, access_level: int}, …] 
+});
+
+app.post('/api/v1/user', async (req, res) => {
+
+  //Input: {name: string, email: string, access_level: int}
+
+  const{name,email,access} = req.body;
+  let token = req.header('Authorization');
+  jwt.verify(token, process.env.JWT_KEY || 'se3309', (err, decoded) => {
+    if (err) res.status(500);
+    if (decoded.access_level !== 3) res.status(401);
+    else {
+        var sql = `UPDATE generic_users SET access_level = ? WHERE (username = ?) AND (email = ?)`;
+        var sql2 = "SELECT name, email,account_balance, access_level FROM generic_users WHERE name = ? AND email = ?"
+        con.query(sql+";"+sql2,[access,name,email,name,email], function (err, result) {
+          if (err) throw err;
+          else res.status(200).send(result[1]);
+        });
+    }
+  });
+  //Output:{name: string, email: string, account_balance: float, access_level: int}
+});
+
 // Listen to the specified port
 app.listen(port, () => console.log(`Listening on port ${port}...`));
