@@ -2,8 +2,8 @@
 
   <ng-container *ngIf="games?.length">
     <ul>
-      <li *ngFor="let game of games" (click)="getTeamsByGame(game.game_name)">
-        <span>{{game?.game_name}}</span>
+      <li *ngFor="let game of games" (click)="getTeamsByGame(game.name)">
+        <span>{{game?.name}}</span>
       </li>
     </ul>
   </ng-container>
@@ -12,7 +12,7 @@
   <ng-container *ngIf="orgs?.length">
     <ul>
       <li *ngFor="let org of orgs" (click)="setDetails('org', org)">
-        <span>{{org?.org_name}}</span>
+        <span>{{org?.name}}</span>
         <span>{{org?.team_count}}</span>
       </li>
     </ul>

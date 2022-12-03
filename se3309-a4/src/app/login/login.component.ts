@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     else {
       // Authenticate the user
       this.spinner.show();
-      this.authenticationService.login(email, password).subscribe(res => {
+      this.authenticationService.login(password, email).subscribe(res => {
         if (res?.jwt) {
           this.credentials.emit({jwt: res?.jwt});
           localStorage.setItem('token', res?.jwt);
@@ -47,8 +47,10 @@ export class LoginComponent implements OnInit {
       this.spinner.show();
       this.authenticationService.createAccount(username, email, password).subscribe(res => {
 
-        if (res?.result === 'Success') {
-          this.formType = 'Login';
+        if (res?.jwt) {
+          this.credentials.emit({jwt: res?.jwt});
+          localStorage.setItem('token', res?.jwt);
+          this.router.navigateByUrl('home');
         }
         else {
           this.error = "Something went wrong, please try again";
@@ -56,6 +58,7 @@ export class LoginComponent implements OnInit {
 
         this.spinner.hide();
       }, error => {
+        console.log(error);
         this.spinner.hide();
         this.error = error;
       });

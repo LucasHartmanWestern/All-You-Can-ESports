@@ -1,12 +1,12 @@
 <div class="details__content">
 
   <div *ngIf="data?.type === 'org'" class="orgDetails">
-    <h1>{{data?.details?.org_name}}</h1>
+    <h1>{{data?.details?.name}}</h1>
 
     <div class="orgMain">
 
-      <div class="orgTeams">
-        <table *ngIf="orgTeams.length">
+      <div class="orgTeams" *ngIf="orgTeams.length">
+        <table>
           <tr class="headers">
             <th>Teams</th>
           </tr>

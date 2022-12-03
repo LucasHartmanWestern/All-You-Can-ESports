@@ -11,8 +11,8 @@ export class ContentComponent implements OnInit {
 
   constructor(private dataService: DataService, private spinner: NgxSpinnerService) { }
 
-  games: { game_name: string }[] = [];
-  orgs: { org_name: string, team_count: number }[] = [];
+  games: { name: string }[] = [];
+  orgs: { name: string, team_count: number }[] = [];
   matches: { match_date: string, team1_name: string, team2_name: string, location: string, tournament: string | null, winner: number }[] = [];
   teams: { name: string, wins: number, losses: number, organization: string }[] = [];
 

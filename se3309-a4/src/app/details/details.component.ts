@@ -27,7 +27,7 @@ export class DetailsComponent implements OnInit {
   ngOnInit(): void {
     if (this.data?.type === 'org') {
       this.spinner.show();
-      this.dataService.getTeams('', '', this?.data?.details?.org_name)
+      this.dataService.getTeams('', '', this?.data?.details?.name)
         .subscribe(teams => {
           this.spinner.hide();
           this.orgTeams = teams;
@@ -35,7 +35,7 @@ export class DetailsComponent implements OnInit {
           this.spinner.hide();
       });
 
-      this.dataService.getAnnouncements(this?.data?.details?.org_name)
+      this.dataService.getAnnouncements(this?.data?.details?.name)
         .subscribe(announcements => {
           this.spinner.hide();
           this.announcements = announcements;
@@ -59,13 +59,13 @@ export class DetailsComponent implements OnInit {
 
   createAnnouncement(): void {
     let modalRef = this.modalService.open(AnnouncementComponent, {centered: true, windowClass: 'AnnouncementModalClass'});
-    modalRef.componentInstance.orgName = this.data?.details?.org_name;
+    modalRef.componentInstance.orgName = this.data?.details?.name;
     modalRef.componentInstance.newAnnouncement.subscribe((announcement: any) => this.announcements.push(announcement));
   }
 
   deleteAnnouncement(announcement: any): void {
     this.spinner.show();
-    this.dataService.deleteAnnouncement(announcement?.title, announcement?.author, announcement?.body, announcement?.creation_date, this.data?.details?.org_name).subscribe(res => {
+    this.dataService.deleteAnnouncement(announcement?.title, announcement?.author, announcement?.body, announcement?.creation_date, this.data?.details?.name).subscribe(res => {
       this.spinner.hide();
       this.announcements.filter(announcement => announcement !== res);
     }, error => this.spinner.show());

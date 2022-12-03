@@ -20,6 +20,7 @@ export class AnnouncementComponent implements OnInit {
   constructor(private dataService: DataService, public activeModal: NgbActiveModal, private modalService: NgbModal, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
+    console.log(this.user);
   }
 
   createAnnouncement(event: any, title: string, body: string): void {

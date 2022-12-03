@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^14.1.0",
     "@angular/router": "^14.1.0",
     "@ng-bootstrap/ng-bootstrap": "^13.1.1",
+    "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
     "globby": "^13.1.2",
     "jsonwebtoken": "^8.5.1",
