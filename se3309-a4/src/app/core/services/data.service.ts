@@ -111,7 +111,7 @@ export class DataService {
       match_date: match_date,
       team1: team1,
       team2: team2,
-      result: result
+      winner: result
     }, {headers: this.httpHeaders}).pipe(
       map((data: any) => data),
       catchError(this.handleError)

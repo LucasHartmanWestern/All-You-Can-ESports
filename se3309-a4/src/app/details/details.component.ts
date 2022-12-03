@@ -47,11 +47,11 @@ export class DetailsComponent implements OnInit {
 
     if (this.data?.type === 'match') {
       this.spinner.show();
-      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.location, this.data?.details?.team1_name).subscribe(bets => {
+      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.location, this.data?.details?.team1).subscribe(bets => {
         this.spinner.hide();
         bets.forEach((bet: any) => this.bets.push(bet));
       }, error => this.spinner.hide());
-      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.location, this.data?.details?.team2_name).subscribe(bets => {
+      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.location, this.data?.details?.team2).subscribe(bets => {
         this.spinner.hide();
         bets.forEach((bet: any) => this.bets.push(bet));
       }, error => this.spinner.hide());
@@ -63,8 +63,13 @@ export class DetailsComponent implements OnInit {
   }
 
   getTeamPlayers(): void {
+    this.spinner.show();
     this.dataService.getTeamPlayers(this.data?.details?.name).subscribe(res => {
       this.teamPlayers = res;
+      this.spinner.hide();
+    }, error => {
+      alert(error);
+      this.spinner.hide();
     });
   }
 
@@ -79,17 +84,22 @@ export class DetailsComponent implements OnInit {
     this.dataService.deleteAnnouncement(announcement?.title, announcement?.author, announcement?.body, announcement?.creation_date, this.data?.details?.name).subscribe(res => {
       this.spinner.hide();
       this.announcements.filter(announcement => announcement !== res);
-    }, error => this.spinner.show());
+    }, error => {
+      alert(error);
+      this.spinner.hide();
+    });
   }
 
   placeBet(event: any, team: string, amount: string): void {
     this.spinner.show();
-    console.log(this.user);
     event.preventDefault();
     this.dataService.placeBet(parseInt(amount), this.user?.user_id, this.data?.details?.location, this.data?.details?.match_date.split('T')[0], team).subscribe(res => {
       this.spinner.hide();
       this.bets.push(res);
-    }, error => this.spinner.hide());
+    },error => {
+      alert(error);
+      this.spinner.hide();
+    });
   }
 
   updateMatchOutcome(event: any, result: string): void {
@@ -99,6 +109,9 @@ export class DetailsComponent implements OnInit {
       this.spinner.hide();
       // @ts-ignore
       this.data.details = res;
-    }, error => this.spinner.hide());
+    }, error => {
+      alert(error);
+      this.spinner.hide();
+    });
   }
 }

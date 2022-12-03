@@ -44,13 +44,13 @@
       <span [ngClass]="{'winner': data?.details?.winner === 2}">{{data?.details?.team2}}</span>
     </div>
 
-    <button class="addWinner" [hidden]="user.access_level < 2 || data?.details?.winner < 1" [ngbPopover]="result" [autoClose]="false" placement="auto" #resultPopover="ngbPopover">Add Winner</button>
+    <button class="addWinner" [hidden]="user.access_level < 2 || data?.details?.winner > 0" [ngbPopover]="result" [autoClose]="false" placement="auto" #resultPopover="ngbPopover">Add Winner</button>
 
     <ng-template #result>
       <form (submit)="updateMatchOutcome($event, winner.value); resultPopover.close()">
         <select #winner>
           <option [value]="1">{{data?.details?.team1}}</option>
-          <option [value]="1">{{data?.details?.team2}}</option>
+          <option [value]="2">{{data?.details?.team2}}</option>
         </select>
         <input type="submit" value="Save">
       </form>
@@ -63,7 +63,7 @@
     </div>
 
     <div class="bets">
-      <div class="place" *ngIf="data?.details?.winner !== 0 && user.access_level > 0">
+      <div class="place" *ngIf="data?.details?.winner === 0 && user.access_level > 0">
         <button *ngIf="!openBets" (click)="openBets = !openBets">Place bet</button>
 
         <form *ngIf="openBets" (submit)="placeBet($event, team.value, amount.value); openBets = !openBets" #betForm>
