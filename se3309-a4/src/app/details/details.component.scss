@@ -194,14 +194,17 @@
 
     .matchUp {
       justify-content: center;
-      display: flex;
+      display: block;
       font-size: 24px;
       line-height: 36px;
+      text-align: center;
+      margin-bottom: 24px;
 
       span {
         font-weight: bold;
         font-size: 36px;
         margin: 8px;
+        display: block;
 
         &.winner {
           color: green;
@@ -320,15 +323,27 @@
   }
 
   .tournamentDetails {
+    position: relative;
+
     h1 {
       margin-left: 24px;
+    }
+
+    .graphBtn {
+      position: absolute;
+      top: 0;
+      right: 12px;
+      border: none;
+      background-color: #ecf0f1;
+      border-radius: 12px;
+      padding: 4px 12px;
     }
 
     .tournamentMain {
       display: flex;
       justify-content: space-around;
 
-      .tournamentLeaderboard {
+      .tournamentLeaderboard, .matches {
         max-height: 80vh;
         overflow-y: scroll;
         padding: 12px;
@@ -340,7 +355,7 @@
           border-spacing: 0 0.5em;
 
           .headers {
-            font-size: 1.4rem;
+            font-size: 1rem;
             background-color: white;
             border-radius: 12px;
             position: sticky;
@@ -351,6 +366,7 @@
               border-radius: 12px;
               padding: 12px;
               text-align: left;
+              white-space: nowrap;
             }
           }
           tr {
@@ -363,14 +379,18 @@
 
             td {
               padding: 12px;
-              font-size: 1rem;
+              font-size: 0.8rem;
             }
           }
         }
       }
 
-      .ticketGraph {
+      .matches {
         width: 80%;
+      }
+
+      .ticketGraph {
+        width: 0;
       }
     }
   }

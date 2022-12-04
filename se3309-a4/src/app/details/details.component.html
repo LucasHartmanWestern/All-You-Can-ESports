@@ -118,14 +118,38 @@
 
     <div class="tournamentMain">
 
+      <button class="graphBtn" (click)="openPurchaseGraph()" *ngIf="user.access_level > 1">See Purcahse Details</button>
+
       <div class="tournamentLeaderboard" *ngIf="leaderboard.length">
         <table>
           <tr class="headers">
             <th>Leaderboard</th>
           </tr>
 
-          <tr *ngFor="let team of leaderboard" (click)="this.data = { type: 'team', details: team }; getTeamPlayers()">
+          <tr *ngFor="let team of leaderboard" (click)="data = { type: 'team', details: team }; getTeamPlayers()">
             <td>{{team?.name}}</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="matches">
+        <table>
+          <tr class="headers">
+            <th>Match Date</th>
+            <th>Team 1</th>
+            <th>Team 2</th>
+            <th>Location</th>
+            <th>Tournament</th>
+            <th>Winner</th>
+          </tr>
+
+          <tr *ngFor="let match of tournamentMatches" (click)="data = { type: 'match', details: match }">
+            <td>{{match.match_date.split('T')[0]}}</td>
+            <td>{{match?.team1}}</td>
+            <td>{{match?.team2}}</td>
+            <td>{{match?.location}}</td>
+            <td>{{match?.tournament}}</td>
+            <td>{{match?.winner === 1 ? match?.team1 : match?.winner === 2 ? match?.team2 : ''}}</td>
           </tr>
         </table>
       </div>

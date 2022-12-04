@@ -4,6 +4,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AnnouncementComponent } from "../core/modals/announcement/announcement.component";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { NgxSpinnerService } from "ngx-spinner";
+import {TicketGraphComponent} from "../core/modals/ticket-graph/ticket-graph.component";
 
 @Component({
   selector: 'app-details',
@@ -20,6 +21,7 @@ export class DetailsComponent implements OnInit {
   bets: { holder: number, amount: number, location: string, match_date: string, team: string }[] = [];
   teamPlayers: {id: number, name: string, wins: number, losses: number}[] = [];
   leaderboard: { name: string, wins: number, losses: number }[] = [];
+  tournamentMatches: { match_date: string, team1: string, team2: string, location: string, tournament: string | null, winner: number }[] = [];
 
   helper = new JwtHelperService();
   user: any = this.helper.decodeToken(localStorage.getItem('token') || undefined);
@@ -68,6 +70,12 @@ export class DetailsComponent implements OnInit {
       //   this.spinner.hide();
       //   this.leaderboard = teams;
       // }, error => this.spinner.hide());
+
+      this.spinner.show();
+      this.dataService.getMatches('', '', '', this.data?.details?.name).subscribe(matches => {
+        this.tournamentMatches = matches;
+        this.spinner.hide();
+      }, error => this.spinner.hide());
 
       this.addSampleData();
     }
@@ -126,6 +134,11 @@ export class DetailsComponent implements OnInit {
       alert(error);
       this.spinner.hide();
     });
+  }
+
+  openPurchaseGraph(): void {
+    let modalRef = this.modalService.open(TicketGraphComponent, {centered: true, windowClass: 'TicketGraphModalClass'});
+    modalRef.componentInstance.tournamentName = this.data?.details?.name;
   }
 
   addSampleData(): void {

@@ -93,7 +93,7 @@ export class ContentComponent implements OnInit {
 
   addSampleData(): void {
     this.tournaments = [
-      {name: "Tournament 1", start_date: "2022-01-01", end_date: "2022-01-02", game: "Elden Ring", entries: [
+      {name: "aijmoootqqmhywtmr", start_date: "2022-01-01", end_date: "2022-01-02", game: "Elden Ring", entries: [
           {team_name: "Team 1"},
           {team_name: "Team 2"},
           {team_name: "Team 3"}

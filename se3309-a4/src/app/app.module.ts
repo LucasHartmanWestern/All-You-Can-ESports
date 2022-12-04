@@ -16,6 +16,14 @@ import { UsersComponent } from "./core/modals/users/users.component";
 import { DetailsComponent } from './details/details.component';
 import { AnnouncementComponent } from './core/modals/announcement/announcement.component';
 import { FantasyComponent } from './core/modals/fantasy/fantasy.component';
+import { TicketGraphComponent } from './core/modals/ticket-graph/ticket-graph.component';
+
+import { FusionChartsModule } from "angular-fusioncharts";
+
+// Import FusionCharts library and chart modules
+import * as FusionCharts from "fusioncharts";
+import * as charts from "fusioncharts/fusioncharts.charts";
+import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
 
 @NgModule({
   declarations: [
@@ -28,7 +36,8 @@ import { FantasyComponent } from './core/modals/fantasy/fantasy.component';
     UsersComponent,
     DetailsComponent,
     AnnouncementComponent,
-    FantasyComponent
+    FantasyComponent,
+    TicketGraphComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +45,8 @@ import { FantasyComponent } from './core/modals/fantasy/fantasy.component';
     HttpClientModule,
     NgbModule,
     NgxSpinnerModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    FusionChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
