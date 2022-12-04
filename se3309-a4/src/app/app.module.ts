@@ -16,6 +16,7 @@ import { UsersComponent } from "./core/modals/users/users.component";
 import { DetailsComponent } from './details/details.component';
 import { AnnouncementComponent } from './core/modals/announcement/announcement.component';
 import { FantasyComponent } from './core/modals/fantasy/fantasy.component';
+import { TicketGraphComponent } from './core/modals/ticket-graph/ticket-graph.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { FantasyComponent } from './core/modals/fantasy/fantasy.component';
     UsersComponent,
     DetailsComponent,
     AnnouncementComponent,
-    FantasyComponent
+    FantasyComponent,
+    TicketGraphComponent
   ],
   imports: [
     BrowserModule,

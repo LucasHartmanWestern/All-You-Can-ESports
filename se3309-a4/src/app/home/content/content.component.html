@@ -60,4 +60,22 @@
     </table>
   </ng-container>
 
+  <ng-container *ngIf="tournaments?.length">
+    <table>
+      <tr class="headers">
+        <th>Name</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th>Game</th>
+      </tr>
+
+      <tr *ngFor="let tournament of tournaments" (click)="setDetails('tournament', tournament)">
+        <td>{{tournament?.name}}</td>
+        <td>{{tournament?.start_date}}</td>
+        <td>{{tournament?.end_date}}</td>
+        <td>{{tournament?.game}}</td>
+      </tr>
+    </table>
+  </ng-container>
+
 </div>

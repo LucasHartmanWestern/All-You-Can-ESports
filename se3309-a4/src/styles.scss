@@ -14,7 +14,7 @@ select {
   font-size: 18px;
 }
 
-.UsersModalClass .modal-dialog {
+.UsersModalClass .modal-dialog, .TicketGraphModalClass .modal-dialog {
   max-width: 1000px !important;
 }
 

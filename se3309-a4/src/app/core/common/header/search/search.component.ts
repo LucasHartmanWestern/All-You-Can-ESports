@@ -18,6 +18,9 @@ export class SearchComponent implements OnInit {
     if (searchType === 'org' || searchType === 'game') {
       this.dataService.newSearch$.next({search: {type: searchType}});
     }
+    if (searchType === 'tournament') {
+      this.searchTournament();
+    }
   }
 
   searchTeam(event: any, teamName: string, orgName: string, gameName: string): void {
@@ -41,5 +44,11 @@ export class SearchComponent implements OnInit {
         }
       }
     });
+  }
+
+  searchTournament(event?: any, tournamentName?: string): void {
+    if (event) event.preventDefault();
+    if (tournamentName) this.dataService.newSearch$.next({search: {type: 'tournament', criteria: { name: tournamentName }}});
+    else this.dataService.newSearch$.next({search: {type: 'tournament', criteria: {name: null}}});
   }
 }
