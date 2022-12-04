@@ -22,29 +22,25 @@ export class TicketGraphComponent implements OnInit {
   constructor(private dataService: DataService, public activeModal: NgbActiveModal, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    // this.dataService.getPPVData(this.tournamentName, this.matchDetails?.match_location, this.matchDetails?.match_date).subscribe(data => {
-    //   this.ppvData = data.map((purchase: any) => {
-    //     return {purchase_date: new Date(purchase.purchase_date)}
-    //   });
-    // });
+    this.dataService.getPPVData(this.tournamentName, this.matchDetails?.match_location, this.matchDetails?.match_date).subscribe(data => {
+      this.ppvData = data.map((purchase: any) => {
+        return {purchase_date: new Date(purchase.purchase_date)}
+      });
 
-    this.addSampleData();
-
-    this.lineChart = new Chart('lineChart', {
-      type: 'line',
-      data: {
-        labels: this.getGraphLabels(),
-        datasets: [{
-          label: 'Ticket Sales By Day',
-          data: this.getGraphValues(),
-          fill: false,
-          borderColor: "red",
-          borderWidth: 1
-        }]
-      }
+      this.lineChart = new Chart('lineChart', {
+        type: 'line',
+        data: {
+          labels: this.getGraphLabels(),
+          datasets: [{
+            label: 'Ticket Sales By Day',
+            data: this.getGraphValues(),
+            fill: false,
+            borderColor: "red",
+            borderWidth: 1
+          }]
+        }
+      });
     });
-
-    console.log(this.ppvData);
   }
 
   getGraphLabels(): string[] {
@@ -75,23 +71,6 @@ export class TicketGraphComponent implements OnInit {
 
   close(): void {
     this.activeModal.close();
-  }
-
-  addSampleData(): void {
-    this.ppvData = [
-      {purchase_date: "2022-01-01"},
-      {purchase_date: "2022-01-01"},
-      {purchase_date: "2022-01-02"},
-      {purchase_date: "2022-01-02"},
-      {purchase_date: "2022-01-02"},
-      {purchase_date: "2022-01-03"},
-      {purchase_date: "2022-01-04"},
-      {purchase_date: "2022-01-04"},
-      {purchase_date: "2022-01-07"},
-      {purchase_date: "2022-01-11"},
-    ].map((purchase: any) => {
-      return {purchase_date: new Date(purchase.purchase_date)}
-    });
   }
 
 }

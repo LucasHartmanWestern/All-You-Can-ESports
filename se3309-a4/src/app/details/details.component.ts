@@ -4,7 +4,7 @@ import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { AnnouncementComponent } from "../core/modals/announcement/announcement.component";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { NgxSpinnerService } from "ngx-spinner";
-import {TicketGraphComponent} from "../core/modals/ticket-graph/ticket-graph.component";
+import { TicketGraphComponent } from "../core/modals/ticket-graph/ticket-graph.component";
 
 @Component({
   selector: 'app-details',
@@ -65,11 +65,11 @@ export class DetailsComponent implements OnInit {
     }
 
     if (this.data?.type === 'tournament') {
-      // this.spinner.show();
-      // this.dataService.getTournamentLeaderboard(this.data?.details?.name).subscribe(teams => {
-      //   this.spinner.hide();
-      //   this.leaderboard = teams;
-      // }, error => this.spinner.hide());
+      this.spinner.show();
+      this.dataService.getTournamentLeaderboard(this.data?.details?.name).subscribe(teams => {
+        this.spinner.hide();
+        this.leaderboard = teams;
+      }, error => this.spinner.hide());
 
       this.spinner.show();
       this.dataService.getMatches('', '', '', this.data?.details?.name).subscribe(matches => {
@@ -77,7 +77,6 @@ export class DetailsComponent implements OnInit {
         this.spinner.hide();
       }, error => this.spinner.hide());
 
-      this.addSampleData();
     }
 
     console.log(this.data);
@@ -139,16 +138,5 @@ export class DetailsComponent implements OnInit {
   openPurchaseGraph(): void {
     let modalRef = this.modalService.open(TicketGraphComponent, {centered: true, windowClass: 'TicketGraphModalClass'});
     modalRef.componentInstance.tournamentName = this.data?.details?.name;
-  }
-
-  addSampleData(): void {
-    this.leaderboard = [
-      { name: "Team 1", wins: 10, losses: 1 },
-      { name: "Team 2", wins: 9, losses: 2 },
-      { name: "Team 3", wins: 8, losses: 2 },
-      { name: "Team 4", wins: 6, losses: 5 },
-      { name: "Team 5", wins: 4, losses: 6 },
-      { name: "Team 6", wins: 2, losses: 8 }
-    ];
   }
 }
