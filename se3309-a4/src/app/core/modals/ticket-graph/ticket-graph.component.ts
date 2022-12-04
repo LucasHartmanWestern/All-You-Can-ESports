@@ -2,6 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DataService } from "../../services/data.service";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgxSpinnerService } from "ngx-spinner";
+import Chart from 'chart.js/auto';
+
 
 @Component({
   selector: 'app-ticket-graph',
@@ -15,6 +17,8 @@ export class TicketGraphComponent implements OnInit {
 
   ppvData: {purchase_date: Date}[] = [];
 
+  lineChart: any;
+
   constructor(private dataService: DataService, public activeModal: NgbActiveModal, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
@@ -25,7 +29,48 @@ export class TicketGraphComponent implements OnInit {
     // });
 
     this.addSampleData();
+
+    this.lineChart = new Chart('lineChart', {
+      type: 'line',
+      data: {
+        labels: this.getGraphLabels(),
+        datasets: [{
+          label: 'Ticket Sales By Day',
+          data: this.getGraphValues(),
+          fill: false,
+          borderColor: "red",
+          borderWidth: 1
+        }]
+      }
+    });
+
     console.log(this.ppvData);
+  }
+
+  getGraphLabels(): string[] {
+    const date = new Date(this.ppvData[0].purchase_date.getTime());
+
+    const dates = [];
+
+    while (date <= this.ppvData[this.ppvData.length - 1].purchase_date) {
+      dates.push(new Date(date));
+      date.setDate(date.getDate() + 1);
+    }
+
+    return dates.map(date => date.toISOString().split('T')[0]);
+  }
+  getGraphValues(): number[] {
+    let values: number[] = [];
+
+    this.getGraphLabels().forEach(date => {
+      let dateCount = 0;
+      this.ppvData.forEach(ppv => {
+        if (ppv.purchase_date.toISOString().split('T')[0] === date) dateCount++;
+      });
+      values.push(dateCount);
+    });
+
+    return values;
   }
 
   close(): void {
@@ -41,6 +86,9 @@ export class TicketGraphComponent implements OnInit {
       {purchase_date: "2022-01-02"},
       {purchase_date: "2022-01-03"},
       {purchase_date: "2022-01-04"},
+      {purchase_date: "2022-01-04"},
+      {purchase_date: "2022-01-07"},
+      {purchase_date: "2022-01-11"},
     ].map((purchase: any) => {
       return {purchase_date: new Date(purchase.purchase_date)}
     });
