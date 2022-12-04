@@ -18,13 +18,6 @@ import { AnnouncementComponent } from './core/modals/announcement/announcement.c
 import { FantasyComponent } from './core/modals/fantasy/fantasy.component';
 import { TicketGraphComponent } from './core/modals/ticket-graph/ticket-graph.component';
 
-import { FusionChartsModule } from "angular-fusioncharts";
-
-// Import FusionCharts library and chart modules
-import * as FusionCharts from "fusioncharts";
-import * as charts from "fusioncharts/fusioncharts.charts";
-import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -45,8 +38,7 @@ import * as FusionTheme from "fusioncharts/themes/fusioncharts.theme.fusion";
     HttpClientModule,
     NgbModule,
     NgxSpinnerModule,
-    BrowserAnimationsModule,
-    FusionChartsModule
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
