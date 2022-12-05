@@ -125,7 +125,7 @@ export class DataService {
     );
   }
 
-  saveTeam(team_name: string, game_name: string, organization: string | null, fantasy_builder: string | null, players: number[]): Observable<any> {
+  saveTeam(team_name: string, game_name: string, organization: string | null, fantasy_builder: number | null, players: number[]): Observable<any> {
     return this.http.put<any>(`${Constants.apiPaths.team}`, {
       team_name: team_name,
       game_name: game_name,
