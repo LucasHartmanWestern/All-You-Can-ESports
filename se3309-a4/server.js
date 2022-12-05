@@ -43,8 +43,30 @@ app.get('/api/v1/team', (req, res) => {
     const gameName = req.query['game_name'];
     const orgName = req.query['org_name'];
 
-      var sql = "SELECT * FROM teams WHERE name = ? OR game = ? OR organization = ?; ";
-      con.query(sql,[teamName,gameName,orgName], function (err, result) {
+      var sql = "SELECT t.name AS team_name, "+
+      "(SELECT COUNT(*) FROM matches WHERE team1 = t.name AND winner = 1) + (SELECT COUNT(*) FROM matches WHERE team2 = t.name AND winner = 2) AS wins, "+
+      "(SELECT COUNT(*) FROM matches WHERE team1 = t.name AND winner = 2) + (SELECT COUNT(*) FROM matches WHERE team2 = t.name AND winner = 1) AS losses, "+
+      "t.organization AS org_name "+
+      "FROM teams t "+
+      "WHERE CASE "+
+      "WHEN (? IS NOT NULL AND ? IS NOT NULL AND ? IS NOT NULL) "+
+      "THEN t.name LIKE (CONCAT('%', ?, '%')) AND t.game LIKE (CONCAT('%', ?, '%')) AND t.organization LIKE (CONCAT('%', ?, '%')) "+
+      "WHEN (? IS NOT NULL AND ? IS NOT NULL AND ? IS NULL) "+
+      "THEN t.name LIKE (CONCAT('%', ?, '%')) AND t.game LIKE (CONCAT('%', ?, '%')) "+
+      "WHEN (? IS NOT NULL AND ? IS NULL AND ? IS NOT NULL) "+
+      "THEN t.name LIKE (CONCAT('%', ?, '%')) AND t.organization LIKE (CONCAT('%', ?, '%')) "+
+      "WHEN (? IS NOT NULL AND ? IS NULL AND ? IS NULL) "+
+      "THEN t.name LIKE (CONCAT('%', ?, '%')) "+
+      "WHEN (? IS NULL AND ? IS NOT NULL AND ? IS NOT NULL) "+
+      "THEN t.game LIKE (CONCAT('%', ?, '%')) AND t.organization LIKE (CONCAT('%', ?, '%')) "+
+      "WHEN (? IS NULL AND ? IS NOT NULL AND ? IS NULL) "+
+      "THEN t.game LIKE (CONCAT('%', ?, '%')) "+
+      "ELSE t.organization LIKE (CONCAT('%', ?, '%')) "+
+      "END "+
+      "AND t.team_type = 'Org'; ";
+      con.query(sql,[teamName,gameName,orgName,teamName,gameName,orgName,teamName,gameName,orgName,teamName,gameName,
+        teamName,gameName,orgName,teamName,orgName,teamName,gameName,orgName,teamName,teamName,gameName,orgName,gameName,orgName,teamName,gameName,orgName,
+      gameName,orgName], function (err, result) {
         if (err) {
           res.send (err);
         } else {
@@ -92,7 +114,7 @@ app.get('/api/v1/orgs', (req, res) => {
 app.get('/api/v1/match', (req, res) => {
 
     // Received Object Structure:
-    // N/A
+    // {match_date: YYYY-MM-DD, team_name: string, location: string, tournament: string} 
 
     // Retrieve and verify input parameters
     const teamName = req.query['team_name'];
@@ -100,8 +122,10 @@ app.get('/api/v1/match', (req, res) => {
     const location = req.query['location'];
     const tournament = req.query['tournament'];
 
-      var sql = "SELECT * FROM matches WHERE match_date = ? OR team1 = ? OR team2 = ? OR location =? OR tournament = ? GROUP BY match_date ";
-      con.query(sql,[matchDate,teamName,teamName,location,tournament], function (err, result) {
+      var sql = "SELECT match_date, team1 team1_name, team2 team2_name, location, tournament, winner FROM matches "+
+      "WHERE match_date=? OR team1 LIKE CASE WHEN ? != '' THEN (CONCAT('%', ?, '%')) END OR team2 LIKE CASE WHEN ? != '' THEN (CONCAT('%', ?, '%')) END OR "+
+      "location LIKE CASE WHEN ? != '' THEN (CONCAT('%', ?, '%')) END OR tournament LIKE CASE WHEN ? != '' THEN (CONCAT('%', ?, '%')) END ORDER BY match_date ASC; ";
+      con.query(sql,[matchDate,teamName,teamName,teamName,teamName,location,location,tournament,tournament], function (err, result) {
         if (err) {
           res.send (err);
         } else {
@@ -262,6 +286,7 @@ app.post('/api/v1/match/results', (req, res) => {
   // Endpoint output: {match_location: string, match_date: string, team1: string, team2: string, result: 1 or 2}
 });
 
+//Create User
 app.put('/api/v1/user/create', async (req, res) => {
 
   // Received Object Structure:
@@ -297,6 +322,7 @@ app.put('/api/v1/user/create', async (req, res) => {
   //  JWT with {user_id: int, name: string, access_level: int}
 });
 
+//Verify User Login
 app.post('/api/v1/user/login', async (req, res) => {
 
   // Received Object Structure:
@@ -326,6 +352,7 @@ app.post('/api/v1/user/login', async (req, res) => {
   // JWT with {user_id: int, name: string, access_level: int}
 });
 
+//Create Guest User
 app.post('/api/v1/user/guest', async (req, res) => {
 
   // Received Object Structure:
@@ -345,6 +372,7 @@ app.post('/api/v1/user/guest', async (req, res) => {
   //JWT with {user_id: 0, name: “guest”, access_level: 1}
 });
 
+//Get all Users
 app.get('/api/v1/user', async (req, res) => {
 
   // Received Object Structure:
@@ -368,6 +396,7 @@ app.get('/api/v1/user', async (req, res) => {
   // Endpoint output: […, {name: string, email: string, account_balance: float, access_level: int}, …]
 });
 
+//Update User Access Level
 app.post('/api/v1/user', async (req, res) => {
 
   //Input: {name: string, email: string, access_level: int}
@@ -387,6 +416,249 @@ app.post('/api/v1/user', async (req, res) => {
     }
   });
   //Output:{name: string, email: string, account_balance: float, access_level: int}
+});
+
+app.get('/api/v1/players', (req, res) => {
+
+  // Received Object Structure:
+  // N/A
+  let token = req.header('Authorization');
+  jwt.verify(token, process.env.JWT_KEY || 'se3309', (err, decoded) => {
+    if (err) res.status(500);
+    if (decoded.access_level < 1) {
+      res.status(404).send("Not authorized")
+      return;
+    } else {
+        var sql = "SELECT p.player, "+
+        "d.name, "+
+        "SUM((SELECT COUNT(*) FROM matches WHERE team1 = t.name AND winner = 1) + (SELECT COUNT(*) FROM matches WHERE team2 = t.name AND winner = 2)) AS wins, "+
+        "SUM((SELECT COUNT(*) FROM matches WHERE team1 = t.name AND winner = 2) + (SELECT COUNT(*) FROM matches WHERE team2 = t.name AND winner = 1)) AS losses "+
+        "FROM player_teams p JOIN teams t ON p.team = t.name JOIN players d ON p.player = d.player_id "+
+        "WHERE t.team_type = 'Org' "+
+        "GROUP BY p.player "+
+        "ORDER BY p.player; ";
+      con.query(sql, function (err, result) {
+        if (err) {
+        res.send (err);
+        } else {
+        res.send(result);
+        }
+      });
+    }
+  });
+  // Sent Object Structure:
+  // […, {id: int, name: string, wins: int, losses: int}, …]  
+});
+
+app.put('/api/v1/team', (req, res) => {
+
+  // Received Object Structure:
+  // {team_name: string, game_name: string, organization: string, fantasy_builder: string, players: […,int, …]} 
+
+  let token = req.header('Authorization');
+    jwt.verify(token, process.env.JWT_KEY || 'se3309', (err, decoded) => {
+      if (err) res.status(500);
+      if (decoded.access_level < 1) {
+        res.status(400).send("Not authorized")
+        return;
+      } else {
+        const {teamName,gameName,org,fantasy,players} = req.body;
+  
+        var sql = "SELECT * FROM teams WHERE name = ?";
+        con.query(sql,[teamName,decoded.name], function (err, result) {
+          if (err) {
+          res.send (err);
+          } else if(result[0].fantasy_builder != decoded.user_id) {
+          res.status(401).send("Fantasy does not belong to user.");
+          } else if(result[0] == '') {
+            [players].forEach(num => {
+              var sql2 = "INSERT INTO player_teams  VALUES (?,?)"
+              con.query(sql2,[num,teamName], function (err, result) {
+                if (err) {
+                  res.send (err);
+                }
+              });
+            });
+            var sql3 = "INSERT INTO teams (name, team_type, game, fantasy_builder) VALUES (?,'Fan',?,?);"
+            var sql4 = "SELECT p.player, "+
+            "d.name, "+
+            "SUM((SELECT COUNT(*) FROM matches WHERE team1 = t.name AND winner = 1) + (SELECT COUNT(*) FROM matches WHERE team2 = t.name AND winner = 2)) AS wins, "+
+            "SUM((SELECT COUNT(*) FROM matches WHERE team1 = t.name AND winner = 2) + (SELECT COUNT(*) FROM matches WHERE team2 = t.name AND winner = 1)) AS losses "+
+            "FROM player_teams p JOIN teams t ON p.team = t.name JOIN players d ON p.player = d.player_id "+
+            "WHERE t.team_type = 'Org' AND p.team = ? "+
+            "GROUP BY p.player "+
+            "ORDER BY p.player; ";
+            con.query(sql3+";"+sql4,[teamName,gameName,fantasy,teamName], function (err, result) {
+              if (err) {
+                res.send (err);
+              } else {
+                let returnObj = {team_name: teamName, game_name: gameName, players: result}
+                res.send(returnObj);
+              }
+            });
+          } else {
+            var sql3 = "DELETE FROM player_teams WHERE team = ? "
+            var sql4 = "DELETE FROM teams WHERE name = ? "
+            con.query(sql3+";"+sql4,[teamName,teamName], function (err, result) {
+              if (err) {
+                res.send (err);
+              } else{
+                [players].forEach(num => {
+                  var sql2 = "INSERT INTO player_teams  VALUES (?,?)"
+                  con.query(sql2,[num,teamName], function (err, result) {
+                    if (err) {
+                      res.send (err);
+                    }
+                  });
+                });
+              }
+            });
+            var sql5 = "INSERT INTO teams (name, team_type, game, fantasy_builder) VALUES (?,'Fan',?,?);"
+            var sql6 = "SELECT p.player, "+
+            "d.name, "+
+            "SUM((SELECT COUNT(*) FROM matches WHERE team1 = t.name AND winner = 1) + (SELECT COUNT(*) FROM matches WHERE team2 = t.name AND winner = 2)) AS wins, "+
+            "SUM((SELECT COUNT(*) FROM matches WHERE team1 = t.name AND winner = 2) + (SELECT COUNT(*) FROM matches WHERE team2 = t.name AND winner = 1)) AS losses "+
+            "FROM player_teams p JOIN teams t ON p.team = t.name JOIN players d ON p.player = d.player_id "+
+            "WHERE t.team_type = 'Org' AND p.team = ? "+
+            "GROUP BY p.player "+
+            "ORDER BY p.player; ";
+            con.query(sql5+";"+sql6,[teamName,gameName,fantasy,teamName], function (err, result) {
+              if (err) {
+                res.send (err);
+              } else {
+                let returnObj = {team_name: teamName, game_name: gameName, players: result}
+                res.send(returnObj);
+              }
+            });
+          }
+        });
+      }
+    });
+
+  // Sent Object Structure:
+  // {team_name: string, game_name: string, players: […, {id: int, name: string, wins: int, losses: int}, …]} 
+});
+
+app.get('/api/v1/fantasy', (req, res) => {
+
+  // Received Object Structure:
+  // {fantasy_builder: int} 
+
+  // Retrieve and verify input parameters
+  const fantasy = req.query['fantasy_builder'];
+
+    var sql = "SELECT * FROM teams WHERE fantasy_builder = ?";
+    con.query(sql,[fantasy], function (err, result) {
+      if (err) {
+        res.send (err);
+      } else {
+        res.send(result);
+      }
+    });
+
+  // Sent Object Structure:
+  // […, {team_name: string, game_name: string}, …]  
+});
+
+app.get('/api/v1/team/players', (req, res) => {
+
+  // Received Object Structure:
+  // {team_name: string}
+
+  // Retrieve and verify input parameters
+  const teamName = req.query['team_name'];
+
+    var sql = "SELECT p.player, "+
+    "d.name, "+
+    "SUM((SELECT COUNT(*) FROM matches WHERE team1 = t.name AND winner = 1) + (SELECT COUNT(*) FROM matches WHERE team2 = t.name AND winner = 2)) AS wins, "+
+    "SUM((SELECT COUNT(*) FROM matches WHERE team1 = t.name AND winner = 2) + (SELECT COUNT(*) FROM matches WHERE team2 = t.name AND winner = 1)) AS losses "+
+    "FROM player_teams p JOIN teams t ON p.team = t.name JOIN players d ON p.player = d.player_id "+
+    "WHERE t.team_type = 'Org' AND p.team = ? "+
+    "GROUP BY p.player "+
+    "ORDER BY p.player; ";
+    con.query(sql,[teamName], function (err, result) {
+      if (err) {
+        res.send (err);
+      } else {
+        res.send(result);
+      }
+    });
+
+  // Sent Object Structure:
+  // […, {id: int, name: string, wins: int, losses: int}, …]  
+});
+
+app.get('/api/v1/tournaments', (req, res) => {
+
+  // Received Object Structure:
+  // {name: string} 
+
+  // Retrieve and verify input parameters
+  const Name = req.query['name'];
+
+    var sql = "SELECT * FROM tournaments, tournament_entries WHERE tournaments.name = tournament_name AND name = ? ORDER BY start_date DESC;";
+    con.query(sql,[Name], function (err, result) {
+      if (err) {
+        res.send (err);
+      } else {
+        res.send(result);
+      }
+    });
+
+  // Sent Object Structure:
+  // […, {name: string, start_date: YYYY-MM-DD, end_date: YYYY-MM-DD, game: string, entries: […, {team_name: string}, …]}, …]  
+});
+
+app.get('/api/v1/tournaments/leaderboard', (req, res) => {
+
+  // Received Object Structure:
+  //  {name: string}
+
+  // Retrieve and verify input parameters
+  const Name = req.query['name'];
+
+    var sql = "SELECT t.name AS team_name, "+
+    "(SELECT COUNT(*) FROM matches WHERE tournament = ? AND team1 = t.name AND winner = 1) + (SELECT COUNT(*) FROM matches WHERE tournament = ? AND team2 = t.name AND winner = 2) AS wins, "+
+    "(SELECT COUNT(*) FROM matches WHERE tournament = ? AND team1 = t.name AND winner = 2) + (SELECT COUNT(*) FROM matches WHERE tournament = ? AND team2 = t.name AND winner = 1) AS losses "+
+    "FROM teams t "+
+    "WHERE t.team_type = 'Org' "+
+    "AND t.name IN (SELECT team FROM tournament_entries WHERE tournament_name = ?) "+
+    "ORDER BY wins ASC; ";
+    con.query(sql,[Name,Name,Name,Name,Name], function (err, result) {
+      if (err) {
+        res.send (err);
+      } else {
+        res.send(result);
+      }
+    });
+
+  // Sent Object Structure:
+  // […, {team_name: string, wins: int, losses: int}, …]
+});
+
+app.get('/api/v1/ppv', (req, res) => {
+
+  // Received Object Structure:
+  // {tournament_name: string, match_location: string, match_date: string} 
+
+  // Retrieve and verify input parameters
+  const matchDate = req.query['match_date'];
+  const location = req.query['match_location'];
+  const tournament = req.query['tournament_name'];
+
+    var sql = "SELECT purchase_date, match_location, purchased_ppv.match_date, matches.match_date, tournament FROM purchased_ppv, matches " + 
+    "WHERE purchased_ppv.match_date = matches.match_date AND ((match_location =? AND purchased_ppv.match_date=?) OR (tournament=?) OR (match_location=? AND purchased_ppv.match_date=? AND tournament=?)) "+
+    "ORDER by purchase_date ASC; ";
+    con.query(sql,[location,matchDate,tournament,location,matchDate,tournament], function (err, result) {
+      if (err) {
+        res.send (err);
+      } else {
+        res.send(result);
+      }
+    });
+
+  // Sent Object Structure:
+  // […, {purchase_date: YYYY-MM-DD}, …] 
 });
 
 // Listen to the specified port
