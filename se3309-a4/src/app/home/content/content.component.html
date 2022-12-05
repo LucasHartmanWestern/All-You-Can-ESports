@@ -31,7 +31,7 @@
       </tr>
 
       <tr *ngFor="let match of matches" (click)="setDetails('match', match)">
-        <td>{{match?.match_date}}</td>
+        <td>{{formatDate(match?.match_date || '')}}</td>
         <td>{{match?.team1}}</td>
         <td>{{match?.team2}}</td>
         <td>{{match?.location}}</td>
@@ -52,10 +52,10 @@
       </tr>
 
       <tr *ngFor="let team of teams" (click)="setDetails('team', team)">
-        <td>{{team?.name}}</td>
+        <td>{{team?.team_name}}</td>
         <td>{{team?.wins}}</td>
         <td>{{team?.losses}}</td>
-        <td>{{team?.organization}}</td>
+        <td>{{team?.org_name}}</td>
       </tr>
     </table>
   </ng-container>
@@ -71,8 +71,8 @@
 
       <tr *ngFor="let tournament of tournaments" (click)="setDetails('tournament', tournament)">
         <td>{{tournament?.name}}</td>
-        <td>{{tournament?.start_date}}</td>
-        <td>{{tournament?.end_date}}</td>
+        <td>{{formatDate(tournament?.start_date || '')}}</td>
+        <td>{{formatDate(tournament?.end_date || '')}}</td>
         <td>{{tournament?.game}}</td>
       </tr>
     </table>

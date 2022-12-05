@@ -20,7 +20,7 @@
             <td>{{player?.name}}</td>
             <td>{{player?.wins}}</td>
             <td>{{player?.losses}}</td>
-            <td (click)="selectPlayer(player)" [textContent]="!isOnTeam(player) ? '+' : '-'"></td>
+            <td (click)="selectPlayer(player)" [textContent]="!isOnTeam(player) ? '+' : '-'" [hidden]="!selectedTeam"></td>
           </tr>
         </table>
       </div>
@@ -30,7 +30,7 @@
     <div class="teamPreview">
 
       <div class="teamSelectorCreator">
-        <select (change)="selectTeam(chosenTeam.value)" *ngIf="!createForm && userTeams.length" #chosenTeam>
+        <select (change)="selectTeam(chosenTeam.value, 'Fan')" *ngIf="!createForm && userTeams.length" #chosenTeam>
           <option *ngFor="let team of userTeams" [value]="team?.team_name" [selected]="team == this.selectedTeam">{{team?.team_name}}</option>
         </select>
 

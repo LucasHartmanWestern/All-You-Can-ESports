@@ -15,12 +15,12 @@ export class DetailsComponent implements OnInit {
 
   @Input() data: { type: string, details: any } | null = null;
 
-  orgTeams: { name: string, wins: number, losses: number, organization: string }[] = [];
+  orgTeams: { team_name: string, wins: number, losses: number, organization: string }[] = [];
   announcements: { title: string, author: string, body: string, creation_date: string }[] = [];
   openBets: boolean = false;
   bets: { holder: number, amount: number, location: string, match_date: string, team: string }[] = [];
   teamPlayers: {id: number, name: string, wins: number, losses: number}[] = [];
-  leaderboard: { name: string, wins: number, losses: number }[] = [];
+  leaderboard: { team_name: string, wins: number, losses: number }[] = [];
   tournamentMatches: { match_date: string, team1: string, team2: string, location: string, tournament: string | null, winner: number }[] = [];
 
   helper = new JwtHelperService();
@@ -61,7 +61,7 @@ export class DetailsComponent implements OnInit {
     }
 
     if (this.data?.type === 'team') {
-      this.getTeamPlayers();
+      this.getTeamPlayers('Org');
     }
 
     if (this.data?.type === 'tournament') {
@@ -82,9 +82,18 @@ export class DetailsComponent implements OnInit {
     console.log(this.data);
   }
 
-  getTeamPlayers(): void {
+  getFormattedAnnouncements(): any[] {
+    return this.announcements.map(a => {
+      a.creation_date = a.creation_date.split('T')[0];
+      return a;
+    }).sort((a: any, b: any) => {
+      return a > b ? 1 : a < b ? -1 : 0;
+    });
+  }
+
+  getTeamPlayers(team_type: string): void {
     this.spinner.show();
-    this.dataService.getTeamPlayers(this.data?.details?.name).subscribe(res => {
+    this.dataService.getTeamPlayers(this.data?.details?.team_name, team_type).subscribe(res => {
       this.teamPlayers = res;
       this.spinner.hide();
     }, error => {
@@ -103,7 +112,7 @@ export class DetailsComponent implements OnInit {
     this.spinner.show();
     this.dataService.deleteAnnouncement(announcement?.title, announcement?.author, announcement?.body, announcement?.creation_date, this.data?.details?.name).subscribe(res => {
       this.spinner.hide();
-      this.announcements.filter(announcement => announcement !== res);
+      this.announcements.splice(this.announcements.indexOf(announcement), 1);
     }, error => {
       alert(error);
       this.spinner.hide();
@@ -137,6 +146,7 @@ export class DetailsComponent implements OnInit {
 
   openPurchaseGraph(): void {
     let modalRef = this.modalService.open(TicketGraphComponent, {centered: true, windowClass: 'TicketGraphModalClass'});
-    modalRef.componentInstance.tournamentName = this.data?.details?.name;
+    if (this.data?.type === 'tournament') modalRef.componentInstance.tournamentName = this.data?.details?.name;
+    if (this.data?.type === 'match') modalRef.componentInstance.matchDetails = {match_date: this.data?.details?.match_date, match_location: this.data?.details?.location};
   }
 }

@@ -14,7 +14,7 @@ export class ContentComponent implements OnInit {
   games: { name: string }[] = [];
   orgs: { name: string, team_count: number }[] = [];
   matches: { match_date: string, team1: string, team2: string, location: string, tournament: string | null, winner: number }[] = [];
-  teams: { name: string, wins: number, losses: number, organization: string }[] = [];
+  teams: { team_name: string, wins: number, losses: number, org_name: string }[] = [];
   tournaments: {name: string, start_date: string, end_date: string, game: string, entries: {team_name: string}[] }[] = [];
 
   ngOnInit(): void {
@@ -25,7 +25,6 @@ export class ContentComponent implements OnInit {
       this.teams = [];
       this.tournaments = [];
 
-      this.spinner.show();
       if (res?.search?.type === 'org') {
         this.spinner.show();
         this.dataService.getOrgs().subscribe(orgs => {
@@ -36,6 +35,7 @@ export class ContentComponent implements OnInit {
         });
       }
       if (res?.search?.type === 'game') {
+        this.spinner.show();
         this.dataService.getGames().subscribe(games => {
           this.spinner.hide();
           this.games = games;
@@ -44,6 +44,7 @@ export class ContentComponent implements OnInit {
         });
       }
       if (res?.search?.type === 'match') {
+        this.spinner.show();
         this.dataService.getMatches(res?.search?.criteria?.match_date, res?.search?.criteria?.team_name, res?.search?.criteria?.location, res?.search?.criteria?.tournament)
           .subscribe(matches => {
             this.spinner.hide();
@@ -53,6 +54,7 @@ export class ContentComponent implements OnInit {
           });
       }
       if (res?.search?.type === 'team') {
+        this.spinner.show();
         this.dataService.getTeams(res?.search?.criteria?.team_name, res?.search?.criteria?.game_name, res?.search?.criteria?.org_name)
           .subscribe(teams => {
             this.spinner.hide();
@@ -62,6 +64,7 @@ export class ContentComponent implements OnInit {
         });
       }
       if (res?.search?.type === 'tournament') {
+        this.spinner.show();
         this.dataService.getTournaments(res?.search?.criteria?.name)
           .subscribe(tournaments => {
             this.spinner.hide();
@@ -69,9 +72,12 @@ export class ContentComponent implements OnInit {
           }, error => {
             this.spinner.hide();
         });
-        this.spinner.hide();
       }
     });
+  }
+
+  formatDate(date: string): string {
+    return date.split('T')[0];
   }
 
   setDetails(type: string, details: any): void {

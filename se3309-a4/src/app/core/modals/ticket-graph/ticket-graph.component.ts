@@ -22,7 +22,7 @@ export class TicketGraphComponent implements OnInit {
   constructor(private dataService: DataService, public activeModal: NgbActiveModal, private spinner: NgxSpinnerService) { }
 
   ngOnInit(): void {
-    this.dataService.getPPVData(this.tournamentName, this.matchDetails?.match_location, this.matchDetails?.match_date).subscribe(data => {
+    this.dataService.getPPVData(this.tournamentName, this.matchDetails?.match_location, this.matchDetails?.match_date.split('T')[0]).subscribe(data => {
       this.ppvData = data.map((purchase: any) => {
         return {purchase_date: new Date(purchase.purchase_date)}
       });

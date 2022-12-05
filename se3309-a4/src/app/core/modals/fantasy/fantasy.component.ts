@@ -39,7 +39,7 @@ export class FantasyComponent implements OnInit {
       this.userTeams = res;
       this.spinner.hide();
       if (this.userTeams?.length) {
-        this.selectTeam(this.userTeams[0].team_name);
+        this.selectTeam(this.userTeams[0].team_name, 'Fan');
       }
     }, error => {
       this.spinner.hide();
@@ -57,10 +57,10 @@ export class FantasyComponent implements OnInit {
     });
   }
 
-  selectTeam(team_name: string): void {
+  selectTeam(team_name: string, team_type: string): void {
     this.spinner.show();
     this.selectedTeam = this.userTeams[this.userTeams.findIndex(t => t.team_name === team_name)];
-    this.dataService.getTeamPlayers(team_name).subscribe(players => {
+    this.dataService.getTeamPlayers(team_name, team_type).subscribe(players => {
       this.fantasyRoster = players;
       this.spinner.hide();
     }, error => {
@@ -80,6 +80,7 @@ export class FantasyComponent implements OnInit {
 
   selectPlayer(player: { id: number, name: string, wins: number, losses: number }): void {
     let index = this.fantasyRoster.findIndex(p => p.id === player.id);
+    console.log(index, player);
     index === -1 ? this.fantasyRoster.push(player) : this.fantasyRoster.splice(index, 1);
   }
 

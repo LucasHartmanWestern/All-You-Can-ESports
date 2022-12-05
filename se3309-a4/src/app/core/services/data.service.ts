@@ -145,8 +145,8 @@ export class DataService {
     );
   }
 
-  getTeamPlayers(team_name: string): Observable<any> {
-    return this.http.get<any>(`${Constants.apiPaths.team}/players?team_name=${team_name}`, {headers: this.httpHeaders}).pipe(
+  getTeamPlayers(team_name: string, team_type: string): Observable<any> {
+    return this.http.get<any>(`${Constants.apiPaths.team}/players?team_name=${team_name}&team_type=${team_type}`, {headers: this.httpHeaders}).pipe(
       map((data: any) => data),
       catchError(this.handleError)
     );

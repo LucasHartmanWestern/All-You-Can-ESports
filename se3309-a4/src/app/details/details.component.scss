@@ -4,6 +4,20 @@
   border-radius: 12px;
   margin: 0 24px;
 
+  .graphBtn {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    border: none;
+    background-color: #ecf0f1;
+    border-radius: 12px;
+    padding: 4px 12px;
+    box-shadow: none !important;
+    font-size: 16px !important;
+    width: auto !important;
+    height: auto !important;
+  }
+
   .orgDetails {
     h1 {
       margin-left: 24px;
@@ -327,16 +341,6 @@
 
     h1 {
       margin-left: 24px;
-    }
-
-    .graphBtn {
-      position: absolute;
-      top: 0;
-      right: 12px;
-      border: none;
-      background-color: #ecf0f1;
-      border-radius: 12px;
-      padding: 4px 12px;
     }
 
     .tournamentMain {

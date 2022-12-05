@@ -11,8 +11,8 @@
             <th>Teams</th>
           </tr>
 
-          <tr *ngFor="let team of orgTeams" (click)="this.data = { type: 'team', details: team }; getTeamPlayers()">
-            <td>{{team?.name}}</td>
+          <tr *ngFor="let team of orgTeams" (click)="this.data = { type: 'team', details: team }; getTeamPlayers('Org')">
+            <td>{{team?.team_name}}</td>
           </tr>
         </table>
       </div>
@@ -21,8 +21,8 @@
         <h3>Announcements</h3>
         <button class="create" (click)="createAnnouncement()" *ngIf="user?.access_level > 1">Create new announcement</button>
 
-        <ul *ngIf="announcements?.length">
-          <li *ngFor="let announcement of announcements">
+        <ul *ngIf="getFormattedAnnouncements()?.length">
+          <li *ngFor="let announcement of getFormattedAnnouncements()">
             <button *ngIf="user?.access_level > 1" (click)="deleteAnnouncement(announcement)">Delete</button>
             <h4>{{announcement?.title}}</h4>
             <span class="author">{{announcement?.author}}</span>
@@ -45,6 +45,7 @@
     </div>
 
     <button class="addWinner" [hidden]="user.access_level < 2 || data?.details?.winner > 0" [ngbPopover]="result" [autoClose]="false" placement="auto" #resultPopover="ngbPopover">Add Winner</button>
+    <button class="graphBtn" (click)="openPurchaseGraph()" *ngIf="user.access_level > 1">See Purcahse Details</button>
 
     <ng-template #result>
       <form (submit)="updateMatchOutcome($event, winner.value); resultPopover.close()">
@@ -88,7 +89,7 @@
   </div>
 
   <div *ngIf="data?.type === 'team'" class="teamDetails">
-    <h1>{{data?.details.name}}</h1>
+    <h1>{{data?.details.team_name}}</h1>
     <span>{{data?.details?.organization}}</span>
     <div class="stats">
       <span>{{data?.details?.wins}} Wins</span>
@@ -126,8 +127,8 @@
             <th>Leaderboard</th>
           </tr>
 
-          <tr *ngFor="let team of leaderboard" (click)="data = { type: 'team', details: team }; getTeamPlayers()">
-            <td>{{team?.name}}</td>
+          <tr *ngFor="let team of leaderboard" (click)="data = { type: 'team', details: team }; getTeamPlayers('Org')">
+            <td>{{team?.team_name}}</td>
           </tr>
         </table>
       </div>
@@ -152,10 +153,6 @@
             <td>{{match?.winner === 1 ? match?.team1 : match?.winner === 2 ? match?.team2 : ''}}</td>
           </tr>
         </table>
-      </div>
-
-      <div class="ticketGraph">
-
       </div>
 
     </div>
