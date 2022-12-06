@@ -64,7 +64,7 @@
     </div>
 
     <div class="bets">
-      <div class="place" *ngIf="data?.details?.winner === 0 && user.access_level > 0">
+      <div class="place" *ngIf="data?.details?.winner === 0 && user.access_level > 0 && !hasBet()">
         <button *ngIf="!openBets" (click)="openBets = !openBets">Place bet</button>
 
         <form *ngIf="openBets" (submit)="placeBet($event, team.value, amount.value); openBets = !openBets" #betForm>
@@ -124,7 +124,7 @@
       <div class="tournamentLeaderboard" *ngIf="leaderboard.length">
         <table>
           <tr class="headers">
-            <th>Leaderboard</th>
+            <th class="leaderboard">Leaderboard</th>
           </tr>
 
           <tr *ngFor="let team of leaderboard" (click)="data = { type: 'team', details: team }; getTeamPlayers('Org')">
@@ -144,7 +144,7 @@
             <th>Winner</th>
           </tr>
 
-          <tr *ngFor="let match of tournamentMatches" (click)="data = { type: 'match', details: match }">
+          <tr *ngFor="let match of tournamentMatches" (click)="data = { type: 'match', details: match }; getBets()">
             <td>{{match.match_date.split('T')[0]}}</td>
             <td>{{match?.team1}}</td>
             <td>{{match?.team2}}</td>

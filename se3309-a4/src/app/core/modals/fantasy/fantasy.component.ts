@@ -70,6 +70,8 @@ export class FantasyComponent implements OnInit {
   }
 
   createNewTeam(event: any, team_name: string, game_name: string): void {
+    console.log(this.userTeams);
+    console.log(team_name, game_name);
     event.preventDefault();
     if (!team_name) return;
     this.createForm = false;

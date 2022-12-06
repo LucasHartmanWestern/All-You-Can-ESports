@@ -214,10 +214,9 @@ app.get('/api/v1/bets', (req, res) => {
   const matchDate = req.query['match_date'];
   const matchLoc = req.query['match_location'];
   const teamName = req.query['team_name'];
-  const holder = req.query['holder'];
 
-    var sql = "SELECT holder, amount, match_location, match_date, team FROM bets WHERE match_date=? AND match_location=? AND team=? AND holder=?;  ";
-    con.query(sql,[matchDate,matchLoc,teamName,holder], function (err, result) {
+    var sql = "SELECT holder, amount, match_location, match_date, team FROM bets WHERE match_date=? AND match_location=? AND team=?;";
+    con.query(sql,[matchDate,matchLoc,teamName], function (err, result) {
       if (err) {
         res.send (err);
       } else {
@@ -238,7 +237,7 @@ app.put('/api/v1/bets', (req, res) => {
   // Retrieve and verify input parameters
   const {amount,holder,match_location,match_date,team} = req.body;
 
-    var sql = "INSERT INTO bets (amount, holder, match_location, match_date, team, odds) VALUES (?,?,?,?,?, (SELECT ROUND((RAND()*(ABS(wins-losses))+wins+1), 1) FROM teams ORDER BY RAND () LIMIT 1)); ";
+    var sql = "INSERT INTO bets (amount, holder, match_location, match_date, team, odds) VALUES (?,?,?,?,?, (SELECT ROUND((RAND()*(ABS(10-5))+10+1), 1) FROM teams ORDER BY RAND () LIMIT 1)); ";
     con.query(sql,[amount,holder,match_location,match_date,team], function (err, result) {
       if (err) {
         res.send (err);
@@ -260,21 +259,8 @@ app.post('/api/v1/match/results', (req, res) => {
   // Retrieve and verify input parameters
   const {match_location,match_date,team1,team2,winner} = req.body;
 
-    var sql = "UPDATE matches SET winner=? WHERE location=? AND match_date=? AND team1=? AND team2=?"
-    var sql2 = "UPDATE teams, matches "+
-    "SET teams.wins = "+
-       "(SELECT count(team1) FROM matches WHERE winner =1 AND team1 = teams.name) + "+
-       "(SELECT count(team2) FROM matches WHERE winner =2 AND team2 = teams.name), "+
-    "teams.losses = "+
-       "(SELECT count(team2) FROM matches WHERE winner =1 AND team2 = teams.name) + "+
-       "(SELECT count(team1) FROM matches WHERE winner =2 AND team1 = teams.name) "+
-    "WHERE teams.name = matches.team1 OR teams.name = matches.team2 "
-    var sql3 = "UPDATE players, teams,player_teams "+
-    "SET players.wins = teams.wins, players.losses = teams.losses "+
-    "WHERE teams.name = player_teams.team "+
-       "AND player_teams.player = players.player_id "+
-       "AND (teams.wins > 0 or teams.losses>0); "
-    con.query(sql+";"+sql2+";"+sql3,[winner,match_location,match_date,team1,team2], function (err, result) {
+    var sql = "UPDATE matches SET winner=? WHERE location=? AND match_date=? AND team1=? AND team2=?";
+    con.query(sql,[winner,match_location,match_date,team1,team2], function (err, result) {
       if (err) {
         res.send (err);
       } else {
@@ -544,7 +530,7 @@ app.get('/api/v1/fantasy', (req, res) => {
   // Retrieve and verify input parameters
   const fantasy = req.query['fantasy_builder'];
 
-    var sql = "SELECT fantasy_builder, game AS game_name, losses, name AS team_name, organization, team_type, wins FROM teams WHERE fantasy_builder = ?";
+    var sql = "SELECT fantasy_builder, game AS game_name, name AS team_name FROM teams WHERE fantasy_builder = ?";
     con.query(sql,[fantasy], function (err, result) {
       if (err) {
         res.send (err);

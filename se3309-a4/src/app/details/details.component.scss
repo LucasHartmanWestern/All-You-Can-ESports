@@ -283,7 +283,7 @@
         padding: 0;
         display: grid;
         gap: 10px;
-        grid-template-columns: repeat( auto-fit, minmax(200px, 1fr) );
+        grid-template-columns: repeat( auto-fit, minmax(300px, 1fr) );
         list-style-type: none;
         justify-content: center;
         align-content: center;
@@ -292,7 +292,7 @@
           text-align: center;
           padding: 24px;
           margin: 24px auto;
-          width: 175px;
+          width: 250px;
           height: auto;
           background-color: transparent;
           box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -330,8 +330,13 @@
 
     .addWinner {
       position: absolute;
-      right: 0;
-      top: 0;
+      right: 12px;
+      top: 48px;
+      font-size: 16px;
+      padding: 4px 12px;
+      width: auto !important;
+      height: auto !important;
+      box-shadow: none !important;
     }
 
   }
@@ -371,6 +376,9 @@
               padding: 12px;
               text-align: left;
               white-space: nowrap;
+            }
+            th:not(.leaderboard) {
+              border-radius: 0;
             }
           }
           tr {

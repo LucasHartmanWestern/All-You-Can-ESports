@@ -49,15 +49,7 @@ export class DetailsComponent implements OnInit {
     }
 
     if (this.data?.type === 'match') {
-      this.spinner.show();
-      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.location, this.data?.details?.team1).subscribe(bets => {
-        this.spinner.hide();
-        bets.forEach((bet: any) => this.bets.push(bet));
-      }, error => this.spinner.hide());
-      this.dataService.viewBets(this.data?.details?.match_date, this.data?.details?.location, this.data?.details?.team2).subscribe(bets => {
-        this.spinner.hide();
-        bets.forEach((bet: any) => this.bets.push(bet));
-      }, error => this.spinner.hide());
+      this.getBets();
     }
 
     if (this.data?.type === 'team') {
@@ -78,8 +70,22 @@ export class DetailsComponent implements OnInit {
       }, error => this.spinner.hide());
 
     }
+  }
 
-    console.log(this.data);
+  hasBet(): boolean {
+    return this.bets.findIndex((bet: any) => { return bet.holder === this.user.user_id}) !== -1;
+  }
+
+  getBets(): void {
+    this.spinner.show();
+    this.dataService.viewBets(this.data?.details?.match_date.split('T')[0], this.data?.details?.location, this.data?.details?.team1).subscribe(bets => {
+      this.spinner.hide();
+      bets.forEach((bet: any) => this.bets.push(bet));
+    }, error => this.spinner.hide());
+    this.dataService.viewBets(this.data?.details?.match_date.split('T')[0], this.data?.details?.location, this.data?.details?.team2).subscribe(bets => {
+      this.spinner.hide();
+      bets.forEach((bet: any) => this.bets.push(bet));
+    }, error => this.spinner.hide());
   }
 
   getFormattedAnnouncements(): any[] {
