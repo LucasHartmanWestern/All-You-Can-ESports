@@ -9,4 +9,7 @@
 - Visit http://localhost:4200/ in your browser to see application
 
 ### Setup database
-- Reuse database from assignment 3 submission
+- Download DUMP file
+- Extract contents of dump file
+- Import files into local MySQL database
+- Create user profile in db with username "admin" and password "esports"
